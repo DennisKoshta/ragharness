@@ -9,7 +9,6 @@ import pytest
 from ragharness.dataset import EvalItem
 from ragharness.protocol import RAGResult
 
-
 # ── Dummy RAG system ─────────────────────────────────────
 
 

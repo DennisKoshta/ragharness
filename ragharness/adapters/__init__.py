@@ -6,7 +6,9 @@ from ragharness.protocol import RAGSystem
 
 
 def create_adapter(
-    adapter_type: str, adapter_config: dict[str, Any], sweep_overrides: dict[str, Any] | None = None
+    adapter_type: str,
+    adapter_config: dict[str, Any],
+    sweep_overrides: dict[str, Any] | None = None,
 ) -> RAGSystem:
     """Instantiate a RAGSystem from an adapter type, its config, and sweep overrides.
 

@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Literal, Union
+from typing import Any, Literal
 
 import yaml
 from pydantic import BaseModel, Field, field_validator, model_validator
-
 
 # ── Known metric / adapter names ────────────────────────
 
@@ -71,7 +70,7 @@ class RagHarnessConfig(BaseModel):
     dataset: DatasetConfig
     system: SystemConfig
     sweep: dict[str, list[Any]] = Field(default_factory=dict)
-    metrics: list[Union[str, dict[str, Any]]] = Field(
+    metrics: list[str | dict[str, Any]] = Field(
         default_factory=lambda: ["exact_match", "latency_p50", "latency_p95"]
     )
     output: OutputConfig = Field(default_factory=OutputConfig)

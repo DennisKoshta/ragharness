@@ -3,7 +3,6 @@ from pydantic import ValidationError
 
 from ragharness.config import RagHarnessConfig, load_config
 
-
 VALID_YAML = """\
 dataset:
   source: jsonl

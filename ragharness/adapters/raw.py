@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import time
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from ragharness.protocol import RAGResult
 
@@ -124,7 +125,9 @@ class RawRAGSystem:
             )
             answer = resp.choices[0].message.content or ""
             usage = resp.usage
-            return answer, usage.prompt_tokens if usage else 0, usage.completion_tokens if usage else 0
+            prompt_toks = usage.prompt_tokens if usage else 0
+            completion_toks = usage.completion_tokens if usage else 0
+            return answer, prompt_toks, completion_toks
 
         # anthropic
         resp = client.messages.create(

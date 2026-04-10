@@ -1,13 +1,14 @@
 from __future__ import annotations
 
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from ragharness.dataset import EvalItem
-from ragharness.protocol import RAGResult
 from ragharness.metrics.cost import token_cost
 from ragharness.metrics.exact_match import exact_match
 from ragharness.metrics.latency import latency_p50, latency_p95
 from ragharness.metrics.retrieval import precision_at_k
+from ragharness.protocol import RAGResult
 
 PerQuestionMetric = Callable[[EvalItem, RAGResult], float]
 AggregateMetric = Callable[..., float]

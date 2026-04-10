@@ -9,7 +9,6 @@ from ragharness.adapters import create_adapter
 from ragharness.adapters.raw import RawRAGSystem
 from ragharness.protocol import RAGSystem
 
-
 # ── Helpers ──────────────────────────────────────────────
 
 
