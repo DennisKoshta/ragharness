@@ -1,3 +1,179 @@
 # ragharness
 
-Pluggable RAG evaluation framework.
+Pluggable RAG evaluation framework. Run any RAG system against a labeled Q/A dataset and get accuracy, latency, and cost metrics across a configuration sweep.
+
+## Installation
+
+```bash
+pip install ragharness
+
+# With optional adapter dependencies:
+pip install ragharness[anthropic]   # Anthropic Claude
+pip install ragharness[openai]      # OpenAI
+pip install ragharness[all]         # All adapters
+```
+
+For development:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/ragharness.git
+cd ragharness
+uv venv && uv pip install -e ".[dev,anthropic]"
+```
+
+## Quick Start
+
+### 1. Create a dataset (JSONL)
+
+```jsonl
+{"question": "What is the capital of France?", "expected_answer": "Paris"}
+{"question": "Who wrote Romeo and Juliet?", "expected_answer": "William Shakespeare"}
+```
+
+### 2. Write a config
+
+```yaml
+dataset:
+  source: jsonl
+  path: ./data/questions.jsonl
+
+system:
+  adapter: raw
+  adapter_config:
+    llm_provider: anthropic
+    llm_model: claude-sonnet-4-20250514
+
+sweep:
+  top_k: [3, 5, 10]
+  temperature: [0.0, 0.3]
+
+metrics:
+  - exact_match
+  - latency_p50
+  - latency_p95
+  - token_cost:
+      pricing:
+        claude-sonnet-4-20250514:
+          input_per_1k: 0.003
+          output_per_1k: 0.015
+
+output:
+  csv: ./results/run.csv
+  charts: ./results/charts/
+```
+
+### 3. Run
+
+```bash
+ragharness run config.yaml
+```
+
+This expands the sweep matrix (3 top_k x 2 temperature = 6 configs), runs each against every question, and outputs:
+
+- **CSV** with per-question scores and aggregate summary
+- **Charts** (accuracy bars, latency box plots, cost vs accuracy scatter)
+- **Summary table** printed to stdout
+
+## CLI Reference
+
+```
+ragharness run CONFIG        Run an evaluation sweep
+  --dry-run                  Print plan without executing
+  --output-dir DIR           Override output directory
+  --filter TEXT              Filter configs (e.g. "top_k=5")
+  --no-confirm               Skip cost confirmation prompt
+  --verbose                  Show per-question results
+
+ragharness validate CONFIG   Validate a config file without running
+
+ragharness report CSV_PATH   Re-generate charts from existing results
+  --output-dir DIR           Output directory for charts
+```
+
+## Python API
+
+```python
+from ragharness import RAGSystem, RAGResult, EvalDataset
+from ragharness.config import load_config
+from ragharness.orchestrator import run_sweep
+from ragharness.reporters import write_csv, write_charts
+
+config = load_config("config.yaml")
+result = run_sweep(config, no_confirm=True)
+write_csv(result, "results/")
+write_charts(result, "results/charts/")
+```
+
+## Custom RAG Systems
+
+Implement the `RAGSystem` protocol -- a single `query` method:
+
+```python
+from ragharness import RAGSystem, RAGResult
+
+class MyRAGSystem:
+    def query(self, question: str) -> RAGResult:
+        # Your retrieval + generation logic here
+        docs = my_retriever.search(question, top_k=5)
+        answer = my_llm.generate(question, context=docs)
+        return RAGResult(
+            answer=answer,
+            retrieved_docs=docs,
+            metadata={
+                "latency_ms": elapsed_ms,
+                "prompt_tokens": usage.input_tokens,
+                "completion_tokens": usage.output_tokens,
+                "model": "my-model",
+                "top_k": 5,
+            },
+        )
+```
+
+No inheritance required. Any object with a conforming `query` method works.
+
+## Metrics
+
+| Metric | Type | Description |
+|---|---|---|
+| `exact_match` | Per-question | 1.0 if answer matches expected (case-insensitive) |
+| `llm_judge` | Per-question | LLM scores correctness 0.0-1.0 |
+| `precision_at_k` | Per-question | Fraction of retrieved docs in expected set |
+| `latency_p50` | Aggregate | Median query latency |
+| `latency_p95` | Aggregate | 95th percentile query latency |
+| `token_cost` | Aggregate | Total estimated cost from token counts |
+
+## Configuration Reference
+
+| Section | Key | Description |
+|---|---|---|
+| `dataset` | `source` | `jsonl`, `csv`, or `huggingface` |
+| `dataset` | `path` | Path to dataset file |
+| `dataset` | `limit` | Max questions to evaluate |
+| `system` | `adapter` | `raw`, `langchain`, `llamaindex`, or `r2r` |
+| `system` | `adapter_config` | Adapter-specific parameters |
+| `sweep` | *(any key)* | Lists of values to sweep (Cartesian product) |
+| `metrics` | | List of metric names (strings or dicts with params) |
+| `output` | `csv` | CSV output path |
+| `output` | `charts` | Charts output directory |
+
+## Adapters
+
+| Adapter | Status | Install |
+|---|---|---|
+| `raw` | Implemented | `pip install ragharness[anthropic]` or `[openai]` |
+| `langchain` | Stub | `pip install ragharness[langchain]` |
+| `llamaindex` | Stub | `pip install ragharness[llamaindex]` |
+| `r2r` | Stub | `pip install ragharness[r2r]` |
+
+## Development
+
+```bash
+uv venv && uv pip install -e ".[dev]"
+pytest                    # Run tests
+ruff check .              # Lint
+mypy ragharness/          # Type check
+```
+
+## License
+
+MIT

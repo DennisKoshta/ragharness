@@ -1,0 +1,10 @@
+{"question": "What is the capital of France?", "expected_answer": "Paris", "expected_docs": ["France is a country in Western Europe. Its capital is Paris."], "tags": {"topic": "geography"}}
+{"question": "Who wrote Romeo and Juliet?", "expected_answer": "William Shakespeare", "expected_docs": ["Romeo and Juliet is a tragedy written by William Shakespeare."], "tags": {"topic": "literature"}}
+{"question": "What is the speed of light in a vacuum?", "expected_answer": "299,792,458 meters per second", "expected_docs": ["The speed of light in a vacuum is exactly 299,792,458 metres per second."], "tags": {"topic": "physics"}}
+{"question": "What year did World War II end?", "expected_answer": "1945", "expected_docs": ["World War II ended in 1945 with the surrender of Japan."], "tags": {"topic": "history"}}
+{"question": "What is the chemical symbol for gold?", "expected_answer": "Au", "expected_docs": ["Gold is a chemical element with the symbol Au."], "tags": {"topic": "chemistry"}}
+{"question": "Who painted the Mona Lisa?", "expected_answer": "Leonardo da Vinci", "expected_docs": ["The Mona Lisa is a portrait painted by Leonardo da Vinci."], "tags": {"topic": "art"}}
+{"question": "What is the largest planet in our solar system?", "expected_answer": "Jupiter", "expected_docs": ["Jupiter is the largest planet in the Solar System."], "tags": {"topic": "astronomy"}}
+{"question": "What programming language was created by Guido van Rossum?", "expected_answer": "Python", "expected_docs": ["Python was created by Guido van Rossum and first released in 1991."], "tags": {"topic": "technology"}}
+{"question": "What is the boiling point of water at sea level in Celsius?", "expected_answer": "100 degrees Celsius", "expected_docs": ["Water boils at 100 degrees Celsius at standard atmospheric pressure."], "tags": {"topic": "physics"}}
+{"question": "Who developed the theory of general relativity?", "expected_answer": "Albert Einstein", "expected_docs": ["General relativity was developed by Albert Einstein between 1907 and 1915."], "tags": {"topic": "physics"}}
