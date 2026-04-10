@@ -63,6 +63,14 @@ Thumbs.db
 htmlcov/
 .tox/
 
+# ── Linting & Type Checking ──────────────────────────
+.mypy_cache/
+.ruff_cache/
+
+# ── ragharness output ───────────────────────────────
+output/
+results/
+
 # ── Logs & Temp ──────────────────────────────────────
 *.log
 *.tmp

@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ragharness"
+dynamic = ["version"]
+description = "Pluggable RAG evaluation framework"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.0",
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "matplotlib>=3.7",
+    "tqdm>=4.60",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.30"]
+openai = ["openai>=1.0"]
+langchain = ["langchain>=0.2", "langchain-community>=0.2"]
+llamaindex = ["llama-index>=0.10"]
+r2r = ["r2r>=3.0"]
+all = ["ragharness[anthropic,openai,langchain,llamaindex,r2r]"]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "pre-commit",
+]
+
+[project.scripts]
+ragharness = "ragharness.cli:main"
+
+[tool.hatch.version]
+path = "ragharness/_version.py"
+
+[tool.ruff]
+line-length = 99
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
