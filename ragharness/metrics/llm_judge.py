@@ -116,4 +116,4 @@ class LLMJudge:
             temperature=0,
             messages=[{"role": "user", "content": prompt}],
         )
-        return resp.content[0].text
+        return str(resp.content[0].text)

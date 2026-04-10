@@ -71,7 +71,9 @@ class RagHarnessConfig(BaseModel):
     system: SystemConfig
     sweep: dict[str, list[Any]] = Field(default_factory=dict)
     metrics: list[str | dict[str, Any]] = Field(
-        default_factory=lambda: ["exact_match", "latency_p50", "latency_p95"]
+        default_factory=lambda: list[str | dict[str, Any]](
+            ["exact_match", "latency_p50", "latency_p95"]
+        )
     )
     output: OutputConfig = Field(default_factory=OutputConfig)
 

@@ -128,6 +128,8 @@ def run_sweep(
     load_fn = loader.get(config.dataset.source)
     if load_fn is None:
         raise ValueError(f"Unsupported dataset source: {config.dataset.source!r}")
+    if config.dataset.path is None:
+        raise ValueError("dataset.path is required for source={config.dataset.source!r}")
     dataset = load_fn(config.dataset.path)
 
     if config.dataset.limit is not None:

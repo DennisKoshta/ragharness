@@ -5,6 +5,7 @@ import json
 from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 
 @dataclass
@@ -14,7 +15,7 @@ class EvalItem:
     question: str
     expected_answer: str
     expected_docs: list[str] | None = None
-    tags: dict | None = None
+    tags: dict[str, Any] | None = None
 
 
 class EvalDataset:
