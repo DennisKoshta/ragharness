@@ -17,7 +17,7 @@ KNOWN_METRICS = {
     "token_cost",
 }
 
-KNOWN_ADAPTERS = {"raw", "langchain", "llamaindex", "r2r"}
+KNOWN_ADAPTERS = {"raw", "langchain", "llamaindex", "r2r", "haystack"}
 
 
 # ── Sub-models ──────────────────────────────────────────

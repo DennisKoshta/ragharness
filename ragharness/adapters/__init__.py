@@ -33,8 +33,12 @@ def create_adapter(
         from ragharness.adapters.r2r import R2RRAGSystem
 
         return R2RRAGSystem(**merged)
+    elif adapter_type == "haystack":
+        from ragharness.adapters.haystack import HaystackRAGSystem
+
+        return HaystackRAGSystem(**merged)
     else:
         raise ValueError(
             f"Unknown adapter type: {adapter_type!r}. "
-            f"Supported: raw, langchain, llamaindex, r2r"
+            f"Supported: raw, langchain, llamaindex, r2r, haystack"
         )
