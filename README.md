@@ -161,7 +161,7 @@ No inheritance required. Any object with a conforming `query` method works.
 | Adapter | Status | Install |
 |---|---|---|
 | `raw` | Implemented | `pip install ragharness[anthropic]` or `[openai]` |
-| `langchain` | Stub | `pip install ragharness[langchain]` |
+| `langchain` | Implemented | `pip install ragharness[langchain]` |
 | `llamaindex` | Stub | `pip install ragharness[llamaindex]` |
 | `r2r` | Stub | `pip install ragharness[r2r]` |
 

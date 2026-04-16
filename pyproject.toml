@@ -21,7 +21,13 @@ dependencies = [
 [project.optional-dependencies]
 anthropic = ["anthropic>=0.30"]
 openai = ["openai>=1.0"]
-langchain = ["langchain>=0.2", "langchain-community>=0.2"]
+langchain = [
+    "langchain>=0.2",
+    "langchain-core>=0.2",
+    "langchain-openai>=0.1",
+    "langchain-anthropic>=0.1",
+    "langchain-community>=0.2",
+]
 llamaindex = ["llama-index>=0.10"]
 r2r = ["r2r>=3.0"]
 haystack = ["haystack-ai>=2.0"]
@@ -60,6 +66,10 @@ module = [
     "openai",
     "anthropic",
     "langchain",
+    "langchain_core",
+    "langchain_core.*",
+    "langchain_openai",
+    "langchain_anthropic",
     "llama_index",
     "r2r",
     "haystack",
