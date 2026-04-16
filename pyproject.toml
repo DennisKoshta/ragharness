@@ -8,7 +8,23 @@ dynamic = ["version"]
 description = "Pluggable RAG evaluation framework"
 readme = "README.md"
 license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
+authors = [{ name = "Dennis Koshta", email = "denniskoshta@gmail.com" }]
+keywords = ["rag", "evaluation", "llm", "benchmark", "retrieval", "metrics"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Testing",
+]
 dependencies = [
     "click>=8.0",
     "pydantic>=2.0",
@@ -17,6 +33,12 @@ dependencies = [
     "tqdm>=4.60",
     "numpy>=1.24",
 ]
+
+[project.urls]
+Homepage = "https://github.com/DennisKoshta/ragharness"
+Repository = "https://github.com/DennisKoshta/ragharness"
+Issues = "https://github.com/DennisKoshta/ragharness/issues"
+Changelog = "https://github.com/DennisKoshta/ragharness/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 anthropic = ["anthropic>=0.30"]
@@ -48,6 +70,20 @@ ragharness = "ragharness.cli:main"
 
 [tool.hatch.version]
 path = "ragharness/_version.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "ragharness/",
+    "tests/",
+    "examples/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "pyproject.toml",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["ragharness"]
 
 [tool.ruff]
 line-length = 99
