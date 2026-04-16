@@ -129,12 +129,14 @@ class RawRAGSystem:
             completion_toks = usage.completion_tokens if usage else 0
             return answer, prompt_toks, completion_toks
 
-        # anthropic
-        resp = client.messages.create(
-            model=self.llm_model,
-            max_tokens=1024,
-            temperature=self.temperature,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        answer = resp.content[0].text if resp.content else ""
-        return answer, resp.usage.input_tokens, resp.usage.output_tokens
+        if self.llm_provider == "anthropic":
+            resp = client.messages.create(
+                model=self.llm_model,
+                max_tokens=1024,
+                temperature=self.temperature,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            answer = resp.content[0].text if resp.content else ""
+            return answer, resp.usage.input_tokens, resp.usage.output_tokens
+
+        raise ValueError(f"Unknown llm_provider: {self.llm_provider!r}")
