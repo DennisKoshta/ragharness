@@ -122,6 +122,43 @@ def test_query_populates_metadata():
 - `examples/myvendor_config.yaml` — minimal YAML config
 - `examples/myvendor_python.py` — equivalent programmatic invocation
 
+## Thread-safety when `concurrency > 1`
+
+When the sweep runs with `concurrency > 1` (either via `concurrency:` in YAML or `--concurrency N` on the CLI), multiple threads call `query()` on the same adapter instance concurrently. The adapter must be thread-safe.
+
+The bundled adapters are all safe:
+
+- `raw` and `r2r` build their SDK clients lazily behind a `threading.Lock` (double-checked init in `_get_client`).
+- `langchain`, `llamaindex`, and `haystack` construct their clients eagerly in `__init__`, before any thread can call `query()`.
+- The OpenAI, Anthropic, R2R, LangChain, LlamaIndex, and Haystack Python SDKs themselves document thread-safe client use.
+
+If you're writing a custom adapter that will run at `concurrency > 1`:
+
+1. **Avoid mutable shared state in `query()`.** Read-only `self.foo` attributes set in `__init__` are fine. Don't mutate `self.<something>` from inside `query()`.
+2. **If you lazy-init an SDK client, guard it with a lock** (same pattern as `raw.py`):
+
+   ```python
+   import threading
+
+   class MyAdapter:
+       def __init__(self, ...):
+           self._client = None
+           self._client_lock = threading.Lock()
+
+       def _get_client(self):
+           if self._client is not None:
+               return self._client
+           with self._client_lock:
+               if self._client is not None:
+                   return self._client
+               self._client = ExpensiveSDK.Client(...)
+               return self._client
+   ```
+
+3. **Check your SDK's thread-safety docs.** Most modern HTTP-based LLM SDKs are fine, but some have connection-pool caveats worth reading.
+
+Adapters used only at `concurrency == 1` (the default) need no special handling.
+
 ## Ad-hoc custom systems
 
 If you don't need a PR to this repo, skip steps 2–6. Any class with a `query` method works with the orchestrator's Python API:

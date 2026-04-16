@@ -45,6 +45,19 @@ def main(verbose: bool) -> None:
     help="Integer seed for reproducibility, injected into adapter_config. "
     "Honoured by OpenAI; silently ignored by providers without seed support.",
 )
+@click.option(
+    "--concurrency",
+    type=int,
+    default=None,
+    help="Number of parallel queries per config (overrides YAML). Requires thread-safe adapter.",
+)
+@click.option(
+    "--checkpoint",
+    "checkpoint_path",
+    type=click.Path(),
+    default=None,
+    help="JSONL checkpoint path for resumable runs (overrides YAML output.checkpoint).",
+)
 def run(
     config: str,
     dry_run: bool,
@@ -53,6 +66,8 @@ def run(
     filter_str: str | None,
     verbose_queries: bool,
     seed: int | None,
+    concurrency: int | None,
+    checkpoint_path: str | None,
 ) -> None:
     """Run an evaluation sweep from a config file."""
     from ragharness.auth import MissingAPIKeyError, load_dotenv
@@ -75,6 +90,15 @@ def run(
 
     if seed is not None:
         cfg.system.adapter_config["seed"] = seed
+
+    if concurrency is not None:
+        if concurrency < 1:
+            click.echo("Error: --concurrency must be >= 1", err=True)
+            raise SystemExit(1)
+        cfg.concurrency = concurrency
+
+    if checkpoint_path is not None:
+        cfg.output.checkpoint = checkpoint_path
 
     try:
         result = run_sweep(

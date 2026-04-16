@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import threading
 import time
 from collections.abc import Callable
 from typing import Any
@@ -65,31 +66,37 @@ class RawRAGSystem:
         self.seed = int(seed) if seed is not None else None
         self._extra = kwargs
         self._client: Any = None
+        self._client_lock = threading.Lock()
 
     def _get_client(self) -> Any:
         if self._client is not None:
             return self._client
 
-        if self.llm_provider == "openai":
-            try:
-                import openai
-            except ImportError:
-                raise ImportError(
-                    "openai package required. Install with: pip install ragharness[openai]"
-                ) from None
-            self._client = openai.OpenAI()
-        elif self.llm_provider == "anthropic":
-            try:
-                import anthropic
-            except ImportError:
-                raise ImportError(
-                    "anthropic package required. Install with: pip install ragharness[anthropic]"
-                ) from None
-            self._client = anthropic.Anthropic()
-        else:
-            raise ValueError(f"Unknown llm_provider: {self.llm_provider!r}")
+        with self._client_lock:
+            if self._client is not None:
+                return self._client
 
-        return self._client
+            if self.llm_provider == "openai":
+                try:
+                    import openai
+                except ImportError:
+                    raise ImportError(
+                        "openai package required. Install with: pip install ragharness[openai]"
+                    ) from None
+                self._client = openai.OpenAI()
+            elif self.llm_provider == "anthropic":
+                try:
+                    import anthropic
+                except ImportError:
+                    raise ImportError(
+                        "anthropic package required. "
+                        "Install with: pip install ragharness[anthropic]"
+                    ) from None
+                self._client = anthropic.Anthropic()
+            else:
+                raise ValueError(f"Unknown llm_provider: {self.llm_provider!r}")
+
+            return self._client
 
     def query(self, question: str) -> RAGResult:
         start = time.perf_counter()

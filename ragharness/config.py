@@ -65,6 +65,7 @@ class OutputConfig(BaseModel):
 
     csv: str | None = "./results/run_{timestamp}.csv"
     charts: str | None = "./results/charts/"
+    checkpoint: str | None = None
 
 
 class RagHarnessConfig(BaseModel):
@@ -79,6 +80,14 @@ class RagHarnessConfig(BaseModel):
         )
     )
     output: OutputConfig = Field(default_factory=OutputConfig)
+    concurrency: int = 1
+
+    @field_validator("concurrency")
+    @classmethod
+    def _validate_concurrency(cls, v: int) -> int:
+        if v < 1:
+            raise ValueError(f"concurrency must be >= 1, got {v}")
+        return v
 
     @field_validator("metrics")
     @classmethod

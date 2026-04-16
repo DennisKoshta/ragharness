@@ -24,6 +24,7 @@ pip install ragharness[llamaindex]    # LlamaIndex adapter
 pip install ragharness[r2r]           # SciPhi R2R server client
 pip install ragharness[haystack]      # Haystack 2.x adapter
 pip install ragharness[huggingface]   # HuggingFace datasets
+pip install ragharness[cost]          # tiktoken for real pre-run cost estimates
 pip install ragharness[all]           # Everything
 ```
 
@@ -97,12 +98,23 @@ ragharness run CONFIG        Run an evaluation sweep
   --filter TEXT              Filter configs (e.g. "top_k=5")
   --no-confirm               Skip cost confirmation prompt
   --verbose                  Show per-question results
+  --seed N                   Inject reproducibility seed into adapter_config
+  --concurrency N            Parallel queries per config (default 1)
+  --checkpoint PATH          JSONL checkpoint for resumable runs
 
 ragharness validate CONFIG   Validate a config file without running
 
 ragharness report CSV_PATH   Re-generate charts from existing results
   --output-dir DIR           Output directory for charts
 ```
+
+### Parallel sweeps
+
+LLM calls are I/O-bound, so `--concurrency 8` usually gets a ~6–8× speedup on real datasets with no code changes. Sweep configs still run sequentially (one at a time) so progress output stays readable; parallelism fans out across dataset items within each config. All bundled adapters are thread-safe — if you write a custom adapter, see [docs/writing_adapters.md](docs/writing_adapters.md#thread-safety-when-concurrency--1).
+
+### Resumable runs
+
+Pass `--checkpoint path.jsonl` (or set `output.checkpoint` in YAML) and every completed `(config, question)` pair appends to that file immediately. If the process dies or you Ctrl-C out, re-running with the same checkpoint skips the completed items — no wasted tokens. The checkpoint records each row's `config_params`; if you edit your sweep between runs, mismatched rows are flagged and re-run.
 
 ## Python API
 
@@ -169,6 +181,8 @@ No inheritance required. Any object with a conforming `query` method works.
 | `metrics` | | List of metric names (strings or dicts with params) |
 | `output` | `csv` | CSV output path |
 | `output` | `charts` | Charts output directory |
+| `output` | `checkpoint` | JSONL checkpoint path for resumable runs |
+| `concurrency` | | Parallel queries per config (default `1`) |
 
 ## Adapters
 
@@ -191,4 +205,4 @@ mypy ragharness/          # Type check
 
 ## License
 
-MIT
+[MIT](LICENSE) © 2026 Dennis Koshta

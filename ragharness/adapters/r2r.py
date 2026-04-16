@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import threading
 import time
 from typing import Any
 
@@ -76,20 +77,25 @@ class R2RRAGSystem:
         self.rag_generation_config = rag_generation_config or {}
         self._client: Any = client
         self._extra = kwargs
+        self._client_lock = threading.Lock()
 
     def _get_client(self) -> Any:
         if self._client is not None:
             return self._client
 
-        try:
-            from r2r import R2RClient
-        except ImportError:
-            raise ImportError(
-                "r2r package required. Install with: pip install ragharness[r2r]"
-            ) from None
+        with self._client_lock:
+            if self._client is not None:
+                return self._client
 
-        self._client = R2RClient(base_url=self.base_url)
-        return self._client
+            try:
+                from r2r import R2RClient
+            except ImportError:
+                raise ImportError(
+                    "r2r package required. Install with: pip install ragharness[r2r]"
+                ) from None
+
+            self._client = R2RClient(base_url=self.base_url)
+            return self._client
 
     def query(self, question: str) -> RAGResult:
         search_settings: dict[str, Any] = {**self.search_settings, "limit": self.top_k}

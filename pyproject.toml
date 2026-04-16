@@ -54,7 +54,8 @@ llamaindex = ["llama-index>=0.10"]
 r2r = ["r2r>=3.0"]
 haystack = ["haystack-ai>=2.0"]
 huggingface = ["datasets>=2.14"]
-all = ["ragharness[anthropic,openai,langchain,llamaindex,r2r,haystack,huggingface]"]
+cost = ["tiktoken>=0.7"]
+all = ["ragharness[anthropic,openai,langchain,llamaindex,r2r,haystack,huggingface,cost]"]
 dev = [
     "pytest>=8.0",
     "pytest-cov",
@@ -111,6 +112,7 @@ module = [
     "haystack",
     "haystack.*",
     "datasets",
+    "tiktoken",
 ]
 ignore_missing_imports = true
 
