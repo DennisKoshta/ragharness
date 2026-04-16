@@ -12,7 +12,7 @@
 dataset:
   source: jsonl
   path: ./examples/sample_dataset.jsonl
-  # limit: 5  # uncomment to evaluate only the first N questions
+  limit: 1  # uncomment to evaluate only the first N questions
 
 # ── RAG System ───────────────────────────────────────────
 system:

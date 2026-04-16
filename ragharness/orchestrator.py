@@ -11,6 +11,7 @@ import click
 from tqdm import tqdm
 
 from ragharness.adapters import create_adapter
+from ragharness.auth import check_api_key
 from ragharness.config import RagHarnessConfig
 from ragharness.dataset import EvalDataset, EvalItem
 from ragharness.metrics import (
@@ -162,6 +163,9 @@ def run_sweep(
         for sc in sweep_configs:
             click.echo(f"    Config: {sc or '(baseline)'}")
         return SweepResult()
+
+    # Fail fast if the adapter needs an API key we don't have.
+    check_api_key(config.system.adapter_config)
 
     if est_cost > 1.0 and not no_confirm:
         if not click.confirm(

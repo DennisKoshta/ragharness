@@ -38,6 +38,17 @@ class DummyRAGSystem:
 # ── Fixtures ─────────────────────────────────────────────
 
 
+@pytest.fixture(autouse=True)
+def _fake_api_keys(monkeypatch):
+    """Provide dummy API keys so check_api_key doesn't short-circuit tests.
+
+    Real API calls are mocked out via DummyRAGSystem, so the values here
+    never hit the wire — but the auth check runs unconditionally.
+    """
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+
+
 @pytest.fixture
 def dummy_rag_system() -> DummyRAGSystem:
     return DummyRAGSystem()

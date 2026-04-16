@@ -49,10 +49,12 @@ def run(
     verbose_queries: bool,
 ) -> None:
     """Run an evaluation sweep from a config file."""
+    from ragharness.auth import MissingAPIKeyError, load_dotenv
     from ragharness.config import load_config
     from ragharness.orchestrator import run_sweep
     from ragharness.reporters import write_charts, write_csv
 
+    load_dotenv()
     cfg = load_config(config)
 
     if output_dir:
@@ -65,9 +67,13 @@ def run(
         if key in cfg.sweep:
             cfg.sweep[key] = [v for v in cfg.sweep[key] if str(v) == value]
 
-    result = run_sweep(
-        cfg, dry_run=dry_run, no_confirm=no_confirm, verbose=verbose_queries,
-    )
+    try:
+        result = run_sweep(
+            cfg, dry_run=dry_run, no_confirm=no_confirm, verbose=verbose_queries,
+        )
+    except MissingAPIKeyError as e:
+        click.echo(f"Error: {e}", err=True)
+        raise SystemExit(1) from None
 
     if dry_run or not result.runs:
         return

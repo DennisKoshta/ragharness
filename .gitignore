@@ -30,6 +30,7 @@ ENV/
 # ── Environment & Secrets ────────────────────────────
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 secrets/
