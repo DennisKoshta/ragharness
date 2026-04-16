@@ -1,0 +1,35 @@
+Paris is the capital of France. It sits on the Seine river in the north
+of the country and is famous for landmarks including the Eiffel Tower,
+the Louvre Museum, and Notre-Dame Cathedral.
+
+William Shakespeare, the English playwright, wrote Romeo and Juliet in
+the 1590s. Many of his other well-known works, such as Hamlet and
+Macbeth, followed in the decades after.
+
+The speed of light in a vacuum is exactly 299,792,458 meters per second.
+This value is a fundamental constant in physics and is denoted by the
+letter c.
+
+World War II ended in 1945, with Germany's surrender in May and Japan's
+surrender in September after the atomic bombings of Hiroshima and
+Nagasaki.
+
+The chemical symbol for gold is Au, derived from the Latin aurum.
+Gold is a dense, soft, yellow metal and one of the least reactive
+chemical elements.
+
+Leonardo da Vinci painted the Mona Lisa in the early 16th century.
+The painting now hangs in the Louvre Museum in Paris.
+
+Jupiter is the largest planet in our solar system — a gas giant more
+than twice the mass of all the other planets combined.
+
+Python was created by Guido van Rossum and first released in 1991.
+It has since become one of the most widely used programming languages
+for data science, web development, and automation.
+
+At sea level, water boils at 100 degrees Celsius (212 degrees Fahrenheit).
+
+Albert Einstein developed the theory of general relativity, published
+in 1915, which describes gravity as a consequence of the curvature of
+spacetime.

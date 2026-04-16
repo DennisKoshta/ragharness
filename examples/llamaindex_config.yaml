@@ -1,0 +1,44 @@
+# ragharness example: LlamaIndex adapter
+#
+# Builds a VectorStoreIndex from the sample_docs/ directory on first query
+# and runs the sweep against it.  Uses LlamaIndex's default embeddings
+# provider (OpenAI text-embedding-3-small), so OPENAI_API_KEY must be set.
+#
+# For more control — loading a persisted index, using a custom retriever,
+# etc. — see examples/llamaindex_python.py and pass a pre-built
+# ``index=`` or ``query_engine=`` to LlamaIndexRAGSystem.
+#
+# Usage:
+#   ragharness validate examples/llamaindex_config.yaml
+#   ragharness run examples/llamaindex_config.yaml --dry-run
+#   ragharness run examples/llamaindex_config.yaml --no-confirm
+
+# ── Dataset ──────────────────────────────────────────────
+dataset:
+  source: jsonl
+  path: ./examples/sample_dataset.jsonl
+  limit: 3
+
+# ── RAG System ───────────────────────────────────────────
+system:
+  adapter: llamaindex
+  adapter_config:
+    documents_path: ./examples/sample_docs/
+    llm_provider: openai
+    llm_model: gpt-4o-mini
+
+# ── Sweep Parameters ────────────────────────────────────
+sweep:
+  top_k: [1, 3, 5]
+  temperature: [0.0]
+
+# ── Metrics ──────────────────────────────────────────────
+metrics:
+  - exact_match
+  - latency_p50
+  - latency_p95
+
+# ── Output ───────────────────────────────────────────────
+output:
+  csv: ./results/llamaindex_run.csv
+  charts: ./results/charts/

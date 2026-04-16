@@ -70,7 +70,7 @@ module = [
     "langchain_core.*",
     "langchain_openai",
     "langchain_anthropic",
-    "llama_index",
+    "llama_index.*",
     "r2r",
     "haystack",
     "datasets",
