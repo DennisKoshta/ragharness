@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from ragbench.config import RagHarnessConfig, load_config
+from ragbench.config import RagBenchConfig, load_config
 
 VALID_YAML = """\
 dataset:
@@ -89,7 +89,7 @@ def test_parameterised_metrics(tmp_path):
 
 
 def test_defaults():
-    cfg = RagHarnessConfig(
+    cfg = RagBenchConfig(
         dataset={"path": "data.jsonl"},
         system={"adapter": "raw"},
     )
@@ -105,17 +105,17 @@ def test_defaults():
 
 def test_missing_dataset_raises():
     with pytest.raises(ValidationError):
-        RagHarnessConfig(system={"adapter": "raw"})
+        RagBenchConfig(system={"adapter": "raw"})
 
 
 def test_missing_system_raises():
     with pytest.raises(ValidationError):
-        RagHarnessConfig(dataset={"path": "data.jsonl"})
+        RagBenchConfig(dataset={"path": "data.jsonl"})
 
 
 def test_unknown_adapter_raises():
     with pytest.raises(ValidationError, match="Unknown adapter"):
-        RagHarnessConfig(
+        RagBenchConfig(
             dataset={"path": "data.jsonl"},
             system={"adapter": "nonexistent"},
         )
@@ -123,7 +123,7 @@ def test_unknown_adapter_raises():
 
 def test_unknown_metric_raises():
     with pytest.raises(ValidationError, match="Unknown metric"):
-        RagHarnessConfig(
+        RagBenchConfig(
             dataset={"path": "data.jsonl"},
             system={"adapter": "raw"},
             metrics=["exact_match", "bogus_metric"],
@@ -132,7 +132,7 @@ def test_unknown_metric_raises():
 
 def test_jsonl_source_without_path_raises():
     with pytest.raises(ValidationError, match="requires 'path'"):
-        RagHarnessConfig(
+        RagBenchConfig(
             dataset={"source": "jsonl"},
             system={"adapter": "raw"},
         )
@@ -140,7 +140,7 @@ def test_jsonl_source_without_path_raises():
 
 def test_huggingface_source_without_name_raises():
     with pytest.raises(ValidationError, match="requires 'name'"):
-        RagHarnessConfig(
+        RagBenchConfig(
             dataset={"source": "huggingface"},
             system={"adapter": "raw"},
         )

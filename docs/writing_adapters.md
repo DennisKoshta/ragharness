@@ -173,7 +173,7 @@ class MySystem:
         ...
         return RAGResult(answer="...", retrieved_docs=[...], metadata={...})
 
-# Instead of loading a YAML, build the RagHarnessConfig in Python and
+# Instead of loading a YAML, build the RagBenchConfig in Python and
 # supply an adapter factory via the 'raw' adapter's retriever argument,
 # or call the metric functions directly on your own loop. See
 # examples/programmatic_sweep.py and examples/custom_rag_system.py.

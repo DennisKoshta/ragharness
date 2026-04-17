@@ -80,7 +80,7 @@ class OutputConfig(BaseModel):
     html: str | None = None
 
 
-class RagHarnessConfig(BaseModel):
+class RagBenchConfig(BaseModel):
     """Root configuration model for a ragbench evaluation run."""
 
     dataset: DatasetConfig
@@ -120,7 +120,7 @@ class RagHarnessConfig(BaseModel):
         return v
 
 
-def load_config(path: str | Path) -> RagHarnessConfig:
+def load_config(path: str | Path) -> RagBenchConfig:
     """Load and validate a YAML configuration file."""
     path = Path(path)
     if not path.exists():
@@ -129,4 +129,4 @@ def load_config(path: str | Path) -> RagHarnessConfig:
         raw = yaml.safe_load(f)
     if not isinstance(raw, dict):
         raise ValueError(f"Config file must contain a YAML mapping, got {type(raw).__name__}")
-    return RagHarnessConfig(**raw)
+    return RagBenchConfig(**raw)

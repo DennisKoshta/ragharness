@@ -19,7 +19,7 @@ from ragbench.checkpoint import (
     load_checkpoint,
     row_to_result,
 )
-from ragbench.config import DatasetConfig, RagHarnessConfig, SystemConfig
+from ragbench.config import DatasetConfig, RagBenchConfig, SystemConfig
 from ragbench.cost_utils import (
     estimate_sweep_cost,
     resolve_model_from_config,
@@ -352,7 +352,7 @@ def _run_single_config(
 
 
 def run_sweep(
-    config: RagHarnessConfig,
+    config: RagBenchConfig,
     *,
     dry_run: bool = False,
     no_confirm: bool = False,

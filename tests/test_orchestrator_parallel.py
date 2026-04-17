@@ -9,7 +9,7 @@ import time
 import pytest
 
 from ragbench.checkpoint import CheckpointWriter, load_checkpoint
-from ragbench.config import RagHarnessConfig, SystemConfig
+from ragbench.config import RagBenchConfig, SystemConfig
 from ragbench.dataset import EvalDataset, EvalItem
 from ragbench.metrics import get_per_question_metric
 from ragbench.orchestrator import _run_single_config, run_sweep
@@ -300,7 +300,7 @@ def test_run_sweep_with_checkpoint(monkeypatch, tmp_path):
     )
     ck_path = tmp_path / "ck.jsonl"
 
-    cfg = RagHarnessConfig(
+    cfg = RagBenchConfig(
         dataset={"source": "jsonl", "path": str(ds_path)},
         system={"adapter": "raw", "adapter_config": {"llm_provider": "openai"}},
         metrics=["exact_match"],
@@ -329,7 +329,7 @@ def test_run_sweep_with_checkpoint(monkeypatch, tmp_path):
 
 def test_concurrency_must_be_positive():
     with pytest.raises(ValueError, match="concurrency must be"):
-        RagHarnessConfig(
+        RagBenchConfig(
             dataset={"source": "jsonl", "path": "x.jsonl"},
             system={"adapter": "raw"},
             concurrency=0,

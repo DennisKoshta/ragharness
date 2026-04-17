@@ -44,7 +44,7 @@ See [docs/writing_metrics.md](docs/writing_metrics.md). In short:
 - **Per-question metric:** function with signature `(EvalItem, RAGResult) -> float`. Register in `PER_QUESTION_REGISTRY` in [ragbench/metrics/__init__.py](ragbench/metrics/__init__.py).
 - **Aggregate metric:** function with signature `(list[RAGResult], **kwargs) -> float`. Register in `AGGREGATE_REGISTRY`.
 - Tests go under `tests/test_metrics/test_<name>.py`.
-- Whitelist the name in `RagHarnessConfig.metrics` validator in [ragbench/config.py](ragbench/config.py) if it needs to be a valid config string.
+- Whitelist the name in `RagBenchConfig.metrics` validator in [ragbench/config.py](ragbench/config.py) if it needs to be a valid config string.
 
 ## Commit & PR conventions
 

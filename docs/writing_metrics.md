@@ -140,4 +140,4 @@ PER_QUESTION_REGISTRY["my_metric"] = my_metric
 # now reference "my_metric" in your YAML's metrics list and run_sweep
 ```
 
-The config validator will complain about the unknown name, so you'll also need to relax the allowlist check or construct `RagHarnessConfig` in Python and skip the YAML path.
+The config validator will complain about the unknown name, so you'll also need to relax the allowlist check or construct `RagBenchConfig` in Python and skip the YAML path.

@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-from ragbench.config import RagHarnessConfig
+from ragbench.config import RagBenchConfig
 from ragbench.orchestrator import (
     SweepResult,
     estimate_cost,
@@ -72,7 +72,7 @@ def _patch_adapter(monkeypatch):
 
 
 def _make_config(dataset_path: str, sweep: dict | None = None, metrics: list | None = None):
-    return RagHarnessConfig(
+    return RagBenchConfig(
         dataset={"source": "jsonl", "path": dataset_path},
         system={"adapter": "raw", "adapter_config": {"llm_provider": "openai"}},
         sweep=sweep or {},
@@ -158,7 +158,7 @@ def test_run_sweep_hf_source(monkeypatch, _patch_adapter):
         classmethod(lambda cls, name, **kwargs: _fake_hf_load(name, **kwargs)),
     )
 
-    cfg = RagHarnessConfig(
+    cfg = RagBenchConfig(
         dataset={"source": "huggingface", "name": "fake/ds"},
         system={"adapter": "raw", "adapter_config": {"llm_provider": "openai"}},
         metrics=["exact_match"],

@@ -1,4 +1,4 @@
-"""Construct a RagHarnessConfig in Python — no YAML — and run a sweep.
+"""Construct a RagBenchConfig in Python — no YAML — and run a sweep.
 
 Useful when the config is computed (e.g. sweeping over N model checkpoints
 discovered at runtime, or wiring ragbench into a notebook / pipeline).
@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ragbench.config import DatasetConfig, RagHarnessConfig, SystemConfig
+from ragbench.config import DatasetConfig, RagBenchConfig, SystemConfig
 from ragbench.orchestrator import run_sweep
 from ragbench.reporters import write_csv
 
@@ -19,7 +19,7 @@ from ragbench.reporters import write_csv
 def main() -> None:
     dataset_path = Path(__file__).parent / "sample_dataset.jsonl"
 
-    config = RagHarnessConfig(
+    config = RagBenchConfig(
         dataset=DatasetConfig(source="jsonl", path=str(dataset_path), limit=1),
         system=SystemConfig(
             adapter="raw",
