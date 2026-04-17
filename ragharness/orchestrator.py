@@ -323,8 +323,8 @@ def _run_single_config(
     for metric_name, metric_fn in agg_metrics.items():
         try:
             agg_scores[metric_name] = metric_fn(results)
-        except TypeError:
-            logger.warning("Aggregate metric %r failed, skipping", metric_name)
+        except Exception:
+            logger.warning("Aggregate metric %r failed, skipping", metric_name, exc_info=True)
 
     for pq_name in pq_metrics:
         values = [s[pq_name] for s in per_q_scores if pq_name in s]
@@ -399,7 +399,7 @@ def run_sweep(
     if est_cost > 1.0 and not no_confirm:
         if not click.confirm(f"\nEstimated cost ${est_cost:.2f} exceeds $1. Continue?"):
             click.echo("Aborted.")
-            raise SystemExit(0)
+            raise SystemExit(1)
 
     click.echo(f"{'=' * 60}\n")
 
