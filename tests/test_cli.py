@@ -1,6 +1,6 @@
 from click.testing import CliRunner
 
-from ragbench.cli import main
+from rag_eval_kit.cli import main
 
 runner = CliRunner()
 
@@ -84,4 +84,4 @@ def test_report_html_flag(tmp_path):
     assert result.exit_code == 0
     assert html_out.exists()
     content = html_out.read_text(encoding="utf-8")
-    assert "ragbench" in content
+    assert "rag_eval_kit" in content

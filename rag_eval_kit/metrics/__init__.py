@@ -3,19 +3,19 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Any
 
-from ragbench.dataset import EvalItem
-from ragbench.metrics.answer import contains, f1_token, rouge_l
-from ragbench.metrics.cost import token_cost
-from ragbench.metrics.exact_match import exact_match
-from ragbench.metrics.latency import latency_p50, latency_p95
-from ragbench.metrics.retrieval import (
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.metrics.answer import contains, f1_token, rouge_l
+from rag_eval_kit.metrics.cost import token_cost
+from rag_eval_kit.metrics.exact_match import exact_match
+from rag_eval_kit.metrics.latency import latency_p50, latency_p95
+from rag_eval_kit.metrics.retrieval import (
     hit_rate_at_k,
     mrr,
     ndcg_at_k,
     precision_at_k,
     recall_at_k,
 )
-from ragbench.protocol import RAGResult
+from rag_eval_kit.protocol import RAGResult
 
 PerQuestionMetric = Callable[[EvalItem, RAGResult], float]
 AggregateMetric = Callable[..., float]
@@ -48,18 +48,18 @@ def get_per_question_metric(name: str, **kwargs: Any) -> PerQuestionMetric:
 
     The names ``llm_judge`` and ``llm_faithfulness`` are handled lazily
     because they instantiate an LLM client — *kwargs* are forwarded to
-    :class:`ragbench.metrics.llm_judge.LLMJudge` or
-    :class:`ragbench.metrics.llm_judge.LLMFaithfulness` respectively.
+    :class:`rag_eval_kit.metrics.llm_judge.LLMJudge` or
+    :class:`rag_eval_kit.metrics.llm_judge.LLMFaithfulness` respectively.
 
     Raises ``ValueError`` if the name is unknown. Register new metrics by
     mutating ``PER_QUESTION_REGISTRY`` before calling ``run_sweep``.
     """
     if name == "llm_judge":
-        from ragbench.metrics.llm_judge import LLMJudge
+        from rag_eval_kit.metrics.llm_judge import LLMJudge
 
         return LLMJudge(**kwargs)
     if name == "llm_faithfulness":
-        from ragbench.metrics.llm_judge import LLMFaithfulness
+        from rag_eval_kit.metrics.llm_judge import LLMFaithfulness
 
         return LLMFaithfulness(**kwargs)
 

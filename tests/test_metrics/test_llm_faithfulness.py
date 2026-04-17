@@ -6,9 +6,9 @@ import math
 
 import pytest
 
-from ragbench.dataset import EvalItem
-from ragbench.metrics.llm_judge import LLMFaithfulness
-from ragbench.protocol import RAGResult
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.metrics.llm_judge import LLMFaithfulness
+from rag_eval_kit.protocol import RAGResult
 
 
 def _item() -> EvalItem:

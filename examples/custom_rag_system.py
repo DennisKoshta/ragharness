@@ -15,8 +15,8 @@ from __future__ import annotations
 import time
 from pathlib import Path
 
-from ragbench import EvalDataset, RAGResult, RAGSystem
-from ragbench.metrics import get_aggregate_metric, get_per_question_metric
+from rag_eval_kit import EvalDataset, RAGResult, RAGSystem
+from rag_eval_kit.metrics import get_aggregate_metric, get_per_question_metric
 
 
 class KeywordRAGSystem:

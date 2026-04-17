@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from ragbench.protocol import RAGResult
+from rag_eval_kit.protocol import RAGResult
 
 
 def token_cost(results: list[RAGResult], *, pricing: dict[str, Any]) -> float:

@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import csv
 
-from ragbench.dataset import EvalItem
-from ragbench.orchestrator import RunResult, SweepResult
-from ragbench.protocol import RAGResult
-from ragbench.reporters.chart_reporter import write_charts
-from ragbench.reporters.csv_reporter import write_csv
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.orchestrator import RunResult, SweepResult
+from rag_eval_kit.protocol import RAGResult
+from rag_eval_kit.reporters.chart_reporter import write_charts
+from rag_eval_kit.reporters.csv_reporter import write_csv
 
 
 def _make_sweep_result() -> SweepResult:

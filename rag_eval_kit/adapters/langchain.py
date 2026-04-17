@@ -4,7 +4,7 @@ import time
 from collections.abc import Callable
 from typing import Any, cast
 
-from ragbench.protocol import RAGResult
+from rag_eval_kit.protocol import RAGResult
 
 DEFAULT_RAG_PROMPT = """\
 Answer the question based on the provided context.
@@ -66,7 +66,8 @@ class LangChainRAGSystem:
             import langchain_core  # noqa: F401
         except ImportError:
             raise ImportError(
-                "langchain-core package required. Install with: pip install ragbench[langchain]"
+                "langchain-core package required. "
+                "Install with: pip install rag-eval-kit[langchain]"
             ) from None
 
         self.llm_provider = llm_provider
@@ -92,7 +93,7 @@ class LangChainRAGSystem:
             except ImportError:
                 raise ImportError(
                     "langchain-openai package required. "
-                    "Install with: pip install ragbench[langchain]"
+                    "Install with: pip install rag_eval_kit[langchain]"
                 ) from None
             self._llm = ChatOpenAI(model=self.llm_model, temperature=self.temperature)
         elif self.llm_provider == "anthropic":
@@ -101,7 +102,7 @@ class LangChainRAGSystem:
             except ImportError:
                 raise ImportError(
                     "langchain-anthropic package required. "
-                    "Install with: pip install ragbench[langchain]"
+                    "Install with: pip install rag_eval_kit[langchain]"
                 ) from None
             self._llm = ChatAnthropic(
                 model_name=self.llm_model,

@@ -1,6 +1,6 @@
-from ragbench.dataset import EvalItem
-from ragbench.metrics.retrieval import precision_at_k
-from ragbench.protocol import RAGResult
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.metrics.retrieval import precision_at_k
+from rag_eval_kit.protocol import RAGResult
 
 
 def _item(expected_docs: list[str] | None) -> EvalItem:

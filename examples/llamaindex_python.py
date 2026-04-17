@@ -18,9 +18,9 @@ from pathlib import Path
 from llama_index.core import Document, VectorStoreIndex
 from llama_index.llms.openai import OpenAI
 
-from ragbench import EvalDataset
-from ragbench.adapters.llamaindex import LlamaIndexRAGSystem
-from ragbench.metrics import get_per_question_metric
+from rag_eval_kit import EvalDataset
+from rag_eval_kit.adapters.llamaindex import LlamaIndexRAGSystem
+from rag_eval_kit.metrics import get_per_question_metric
 
 SAMPLE_CORPUS = [
     "Paris is the capital of France.",

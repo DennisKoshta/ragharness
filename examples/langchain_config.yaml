@@ -1,13 +1,13 @@
-# ragbench example: LangChain adapter
+# rag-eval-kit example: LangChain adapter
 #
 # Same sweep as basic_config.yaml, but routes through the
 # LangChain adapter (ChatOpenAI / ChatAnthropic via langchain-openai /
 # langchain-anthropic).
 #
 # Usage:
-#   ragbench validate examples/langchain_config.yaml
-#   ragbench run examples/langchain_config.yaml --dry-run
-#   ragbench run examples/langchain_config.yaml --no-confirm
+# rag-eval-kit validate examples/langchain_config.yaml
+# rag-eval-kit run examples/langchain_config.yaml --dry-run
+# rag-eval-kit run examples/langchain_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:

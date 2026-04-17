@@ -1,12 +1,12 @@
-# ragbench basic example configuration
+# rag-eval-kit basic example configuration
 #
 # The smallest end-to-end config: local JSONL dataset + raw adapter +
 # a 3x2 sweep over top_k and temperature. Good starting point to copy.
 #
 # Usage:
-#   ragbench validate examples/basic_config.yaml
-#   ragbench run examples/basic_config.yaml --dry-run
-#   ragbench run examples/basic_config.yaml --no-confirm
+# rag-eval-kit validate examples/basic_config.yaml
+# rag-eval-kit run examples/basic_config.yaml --dry-run
+# rag-eval-kit run examples/basic_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:

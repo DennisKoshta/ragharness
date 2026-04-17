@@ -19,7 +19,7 @@ Pick the metric that matches your task shape before you write a new one.
 
 ## Writing new metrics
 
-ragbench has two metric kinds, and they plug in through two different registries in [ragbench/metrics/__init__.py](../ragbench/metrics/__init__.py).
+rag_eval_kit has two metric kinds, and they plug in through two different registries in [rag_eval_kit/metrics/__init__.py](../rag_eval_kit/metrics/__init__.py).
 
 | Kind | Signature | Called | Example |
 |---|---|---|---|
@@ -33,10 +33,10 @@ Means of per-question metrics are auto-computed by the orchestrator as `mean_<na
 ### Per-question example: semantic similarity
 
 ```python
-# ragbench/metrics/similarity.py
+# rag_eval_kit/metrics/similarity.py
 from __future__ import annotations
-from ragbench.dataset import EvalItem
-from ragbench.protocol import RAGResult
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.protocol import RAGResult
 
 _model = None
 
@@ -59,16 +59,16 @@ def semantic_similarity(item: EvalItem, result: RAGResult) -> float:
 
 Notes:
 
-- Import heavy / optional deps **inside** the function (lazy) so importing ragbench stays fast and doesn't require the extra.
+- Import heavy / optional deps **inside** the function (lazy) so importing rag-eval-kit stays fast and doesn't require the extra.
 - Return a float in `[0, 1]` where possible — charts and summary tables assume this.
 - Use `nan` to signal "could not score this item"; the orchestrator's mean computation will need handling if you do this, so prefer a defined fallback value.
 
 ### Aggregate example: total tokens
 
 ```python
-# ragbench/metrics/tokens.py
+# rag_eval_kit/metrics/tokens.py
 from __future__ import annotations
-from ragbench.protocol import RAGResult
+from rag_eval_kit.protocol import RAGResult
 
 
 def total_tokens(results: list[RAGResult]) -> float:
@@ -91,11 +91,11 @@ metrics:
 
 ## 2. Register it
 
-Edit [ragbench/metrics/__init__.py](../ragbench/metrics/__init__.py):
+Edit [rag_eval_kit/metrics/__init__.py](../rag_eval_kit/metrics/__init__.py):
 
 ```python
-from ragbench.metrics.similarity import semantic_similarity
-from ragbench.metrics.tokens import total_tokens
+from rag_eval_kit.metrics.similarity import semantic_similarity
+from rag_eval_kit.metrics.tokens import total_tokens
 
 PER_QUESTION_REGISTRY["semantic_similarity"] = semantic_similarity
 AGGREGATE_REGISTRY["total_tokens"] = total_tokens
@@ -103,7 +103,7 @@ AGGREGATE_REGISTRY["total_tokens"] = total_tokens
 
 ## 3. Whitelist in the config validator
 
-[ragbench/config.py](../ragbench/config.py) validates metric names up-front so `ragbench validate` catches typos. Add your name to the allowlist there.
+[rag_eval_kit/config.py](../rag_eval_kit/config.py) validates metric names up-front so `rag-eval-kit validate` catches typos. Add your name to the allowlist there.
 
 ## 4. Tests
 
@@ -122,15 +122,15 @@ Add one paragraph docstring that covers:
 - what edge cases return (empty lists, missing metadata)
 - range of the return value
 
-See [ragbench/metrics/cost.py](../ragbench/metrics/cost.py) for a representative example.
+See [rag_eval_kit/metrics/cost.py](../rag_eval_kit/metrics/cost.py) for a representative example.
 
 ## Registering metrics from user code (no PR needed)
 
 The registries are plain dicts. If you don't want to upstream a metric, register it from your own script before calling `run_sweep`:
 
 ```python
-from ragbench.metrics import PER_QUESTION_REGISTRY
-from ragbench.orchestrator import run_sweep
+from rag_eval_kit.metrics import PER_QUESTION_REGISTRY
+from rag_eval_kit.orchestrator import run_sweep
 
 def my_metric(item, result):
     return 1.0 if "yes" in result.answer.lower() else 0.0
@@ -140,4 +140,4 @@ PER_QUESTION_REGISTRY["my_metric"] = my_metric
 # now reference "my_metric" in your YAML's metrics list and run_sweep
 ```
 
-The config validator will complain about the unknown name, so you'll also need to relax the allowlist check or construct `RagBenchConfig` in Python and skip the YAML path.
+The config validator will complain about the unknown name, so you'll also need to relax the allowlist check or construct `RagEvalKitConfig` in Python and skip the YAML path.

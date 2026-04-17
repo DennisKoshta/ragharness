@@ -20,9 +20,9 @@ from langchain_anthropic import ChatAnthropic
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
-from ragbench import EvalDataset
-from ragbench.adapters.langchain import LangChainRAGSystem
-from ragbench.metrics import get_per_question_metric
+from rag_eval_kit import EvalDataset
+from rag_eval_kit.adapters.langchain import LangChainRAGSystem
+from rag_eval_kit.metrics import get_per_question_metric
 
 
 def build_chain() -> object:

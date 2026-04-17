@@ -14,7 +14,7 @@ import threading
 from pathlib import Path
 from typing import Any
 
-from ragbench.protocol import RAGResult
+from rag_eval_kit.protocol import RAGResult
 
 logger = logging.getLogger(__name__)
 

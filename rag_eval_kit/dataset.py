@@ -130,7 +130,7 @@ class EvalDataset:
             from datasets import load_dataset
         except ImportError:
             raise ImportError(
-                "datasets package required. Install with: pip install ragbench[huggingface]"
+                "datasets package required. Install with: pip install rag_eval_kit[huggingface]"
             ) from None
 
         ds = load_dataset(name, config_name, split=split, trust_remote_code=trust_remote_code)

@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ragbench.orchestrator import SweepResult
+    from rag_eval_kit.orchestrator import SweepResult
 
 
 def write_csv(sweep_result: SweepResult, output_dir: str | Path) -> Path:

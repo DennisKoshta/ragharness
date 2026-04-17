@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "ragbench"
+name = "rag-eval-kit"
 dynamic = ["version"]
 description = "Pluggable RAG evaluation framework"
 readme = "README.md"
@@ -35,10 +35,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/DennisKoshta/ragbench"
-Repository = "https://github.com/DennisKoshta/ragbench"
-Issues = "https://github.com/DennisKoshta/ragbench/issues"
-Changelog = "https://github.com/DennisKoshta/ragbench/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/DennisKoshta/rag-eval-kit"
+Repository = "https://github.com/DennisKoshta/rag-eval-kit"
+Issues = "https://github.com/DennisKoshta/rag-eval-kit/issues"
+Changelog = "https://github.com/DennisKoshta/rag-eval-kit/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 anthropic = ["anthropic>=0.30"]
@@ -55,7 +55,7 @@ r2r = ["r2r>=3.0"]
 haystack = ["haystack-ai>=2.0"]
 huggingface = ["datasets>=2.14"]
 cost = ["tiktoken>=0.7"]
-all = ["ragbench[anthropic,openai,langchain,llamaindex,r2r,haystack,huggingface,cost]"]
+all = ["rag-eval-kit[anthropic,openai,langchain,llamaindex,r2r,haystack,huggingface,cost]"]
 dev = [
     "pytest>=8.0",
     "pytest-cov",
@@ -67,14 +67,14 @@ dev = [
 ]
 
 [project.scripts]
-ragbench = "ragbench.cli:main"
+rag-eval-kit = "rag_eval_kit.cli:main"
 
 [tool.hatch.version]
-path = "ragbench/_version.py"
+path = "rag_eval_kit/_version.py"
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "ragbench/",
+    "rag_eval_kit/",
     "tests/",
     "examples/",
     "README.md",
@@ -84,7 +84,7 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["ragbench"]
+packages = ["rag_eval_kit"]
 
 [tool.ruff]
 line-length = 99

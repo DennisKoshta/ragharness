@@ -20,7 +20,7 @@ repos:
     rev: v1.13.0
     hooks:
       - id: mypy
-        files: ^ragbench/
+        files: ^rag_eval_kit/
         additional_dependencies:
           - pydantic>=2.0
           - types-PyYAML

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from ragbench.dataset import EvalItem
-from ragbench.protocol import RAGResult
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.protocol import RAGResult
 
 
 def exact_match(item: EvalItem, result: RAGResult) -> float:

@@ -1,4 +1,4 @@
-# ragbench example: LlamaIndex adapter
+# rag-eval-kit example: LlamaIndex adapter
 #
 # Builds a VectorStoreIndex from the sample_docs/ directory on first query
 # and runs the sweep against it.  Uses LlamaIndex's default embeddings
@@ -9,9 +9,9 @@
 # ``index=`` or ``query_engine=`` to LlamaIndexRAGSystem.
 #
 # Usage:
-#   ragbench validate examples/llamaindex_config.yaml
-#   ragbench run examples/llamaindex_config.yaml --dry-run
-#   ragbench run examples/llamaindex_config.yaml --no-confirm
+# rag-eval-kit validate examples/llamaindex_config.yaml
+# rag-eval-kit run examples/llamaindex_config.yaml --dry-run
+# rag-eval-kit run examples/llamaindex_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:

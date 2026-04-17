@@ -1,6 +1,6 @@
-from ragbench.metrics.cost import token_cost
-from ragbench.metrics.latency import latency_p50, latency_p95
-from ragbench.protocol import RAGResult
+from rag_eval_kit.metrics.cost import token_cost
+from rag_eval_kit.metrics.latency import latency_p50, latency_p95
+from rag_eval_kit.protocol import RAGResult
 
 
 def _results_with_latencies(latencies: list[float]) -> list[RAGResult]:

@@ -6,8 +6,8 @@ import json
 
 import pytest
 
-from ragbench.dataset import EvalItem
-from ragbench.protocol import RAGResult
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.protocol import RAGResult
 
 # ── Dummy RAG system ─────────────────────────────────────
 

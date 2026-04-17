@@ -1,4 +1,4 @@
-from ragbench.protocol import RAGResult, RAGSystem
+from rag_eval_kit.protocol import RAGResult, RAGSystem
 
 
 class _ValidSystem:

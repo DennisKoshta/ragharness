@@ -1,38 +1,38 @@
-# ragbench
+# rag-eval-kit
 
-[![PyPI version](https://img.shields.io/pypi/v/ragbench.svg)](https://pypi.org/project/ragbench/)
-[![Python versions](https://img.shields.io/pypi/pyversions/ragbench.svg)](https://pypi.org/project/ragbench/)
-[![CI](https://github.com/DennisKoshta/ragbench/actions/workflows/ci.yml/badge.svg)](https://github.com/DennisKoshta/ragbench/actions/workflows/ci.yml)
+[![PyPI version](https://img.shields.io/pypi/v/rag-eval-kit.svg)](https://pypi.org/project/rag-eval-kit/)
+[![Python versions](https://img.shields.io/pypi/pyversions/rag-eval-kit.svg)](https://pypi.org/project/rag-eval-kit/)
+[![CI](https://github.com/DennisKoshta/rag-eval-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/DennisKoshta/rag-eval-kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Pluggable RAG evaluation framework. Run any RAG system against a labeled Q/A dataset and get accuracy, latency, and cost metrics across a configuration sweep.
 
-## Why ragbench?
+## Why rag-eval-kit?
 
-Most teams end up writing one-off eval scripts per project: a loop that calls their RAG pipeline, compares outputs to a golden set, and prints a number. That works once — but the moment you want to sweep across `top_k`, temperatures, or chunking strategies, or compare LangChain vs LlamaIndex on the same dataset, those scripts turn into glue code. ragbench replaces that glue with a YAML config + a single `RAGSystem` protocol (one method: `query`), so the same eval loop drives any system, any metric, any config matrix — and spits out CSVs and charts teams can actually share.
+Most teams end up writing one-off eval scripts per project: a loop that calls their RAG pipeline, compares outputs to a golden set, and prints a number. That works once — but the moment you want to sweep across `top_k`, temperatures, or chunking strategies, or compare LangChain vs LlamaIndex on the same dataset, those scripts turn into glue code. rag-eval-kit replaces that glue with a YAML config + a single `RAGSystem` protocol (one method: `query`), so the same eval loop drives any system, any metric, any config matrix — and spits out CSVs and charts teams can actually share.
 
 ## Installation
 
 ```bash
-pip install ragbench
+pip install rag-eval-kit
 
 # With optional dependencies:
-pip install ragbench[anthropic]     # Anthropic Claude
-pip install ragbench[openai]        # OpenAI
-pip install ragbench[langchain]     # LangChain adapter
-pip install ragbench[llamaindex]    # LlamaIndex adapter
-pip install ragbench[r2r]           # SciPhi R2R server client
-pip install ragbench[haystack]      # Haystack 2.x adapter
-pip install ragbench[huggingface]   # HuggingFace datasets
-pip install ragbench[cost]          # tiktoken for real pre-run cost estimates
-pip install ragbench[all]           # Everything
+pip install rag-eval-kit[anthropic]     # Anthropic Claude
+pip install rag-eval-kit[openai]        # OpenAI
+pip install rag-eval-kit[langchain]     # LangChain adapter
+pip install rag-eval-kit[llamaindex]    # LlamaIndex adapter
+pip install rag-eval-kit[r2r]           # SciPhi R2R server client
+pip install rag-eval-kit[haystack]      # Haystack 2.x adapter
+pip install rag-eval-kit[huggingface]   # HuggingFace datasets
+pip install rag-eval-kit[cost]          # tiktoken for real pre-run cost estimates
+pip install rag-eval-kit[all]           # Everything
 ```
 
 For development:
 
 ```bash
-git clone https://github.com/DennisKoshta/ragbench.git
-cd ragbench
+git clone https://github.com/DennisKoshta/rag-eval-kit.git
+cd rag-eval-kit
 uv venv && uv pip install -e ".[dev,anthropic]"
 ```
 
@@ -82,7 +82,7 @@ output:
 
 ### 3. Set API keys
 
-ragbench reads API keys from environment variables or a `.env` file in the working directory:
+rag-eval-kit reads API keys from environment variables or a `.env` file in the working directory:
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...   # for Claude models
@@ -94,7 +94,7 @@ Or copy `.env.example` to `.env` and fill in your keys. Shell-exported values ta
 ### 4. Run
 
 ```bash
-ragbench run config.yaml
+rag-eval-kit run config.yaml
 ```
 
 This expands the sweep matrix (3 top_k x 2 temperature = 6 configs), runs each against every question, and outputs:
@@ -106,7 +106,7 @@ This expands the sweep matrix (3 top_k x 2 temperature = 6 configs), runs each a
 ## CLI Reference
 
 ```
-ragbench run CONFIG        Run an evaluation sweep
+rag-eval-kit run CONFIG        Run an evaluation sweep
   --dry-run                  Print plan without executing
   --output-dir DIR           Override output directory
   --filter TEXT              Filter configs (e.g. "top_k=5")
@@ -116,13 +116,13 @@ ragbench run CONFIG        Run an evaluation sweep
   --concurrency N            Parallel queries per config (default 1)
   --checkpoint PATH          JSONL checkpoint for resumable runs
 
-ragbench validate CONFIG   Validate a config file without running
+rag-eval-kit validate CONFIG   Validate a config file without running
 
-ragbench report CSV_PATH   Re-generate charts from existing results
+rag-eval-kit report CSV_PATH   Re-generate charts from existing results
   --output-dir DIR           Output directory for charts
   --html PATH                Generate a self-contained HTML report
 
-ragbench compare CSV_A CSV_B  Compare two results_summary.csv files
+rag-eval-kit compare CSV_A CSV_B  Compare two results_summary.csv files
   --output PATH              Write comparison CSV
   --threshold FLOAT          Min absolute delta to flag (default 0.05)
   --html PATH                Write an HTML comparison report
@@ -138,29 +138,29 @@ Pass `--checkpoint path.jsonl` (or set `output.checkpoint` in YAML) and every co
 
 ### HTML reports
 
-Set `output.html: ./results/report.html` in your config (or pass `--html` to `ragbench report`) and get a single self-contained HTML file with sortable tables, inline charts, and a text filter for per-question results. No external CSS/JS — the file is fully portable and can be shared as-is.
+Set `output.html: ./results/report.html` in your config (or pass `--html` to `rag-eval-kit report`) and get a single self-contained HTML file with sortable tables, inline charts, and a text filter for per-question results. No external CSS/JS — the file is fully portable and can be shared as-is.
 
 ### Comparing runs
 
-After tweaking a retriever and re-running, use `ragbench compare` to diff two result CSVs:
+After tweaking a retriever and re-running, use `rag-eval-kit compare` to diff two result CSVs:
 
 ```bash
-ragbench compare results_v1/results_summary.csv results_v2/results_summary.csv --html diff.html
+rag-eval-kit compare results_v1/results_summary.csv results_v2/results_summary.csv --html diff.html
 ```
 
 Configs are matched by parameter equality. Each metric gets an absolute delta, percentage change, and directional indicator (improved/regressed/unchanged). Latency and cost metrics are direction-aware — a decrease is an improvement.
 
 ### Tag-based breakdown
 
-If your dataset includes tags on `EvalItem` (e.g. `{"topic": "physics"}`), ragbench automatically groups per-question scores by tag and reports per-tag averages in `results_tags.csv` and the HTML report's "Tag Breakdown" section. No config changes needed — tags are detected from the data.
+If your dataset includes tags on `EvalItem` (e.g. `{"topic": "physics"}`), rag-eval-kit automatically groups per-question scores by tag and reports per-tag averages in `results_tags.csv` and the HTML report's "Tag Breakdown" section. No config changes needed — tags are detected from the data.
 
 ## Python API
 
 ```python
-from ragbench import RAGSystem, RAGResult, EvalDataset
-from ragbench.config import load_config
-from ragbench.orchestrator import run_sweep
-from ragbench.reporters import write_csv, write_charts, write_html
+from rag_eval_kit import RAGSystem, RAGResult, EvalDataset
+from rag_eval_kit.config import load_config
+from rag_eval_kit.orchestrator import run_sweep
+from rag_eval_kit.reporters import write_csv, write_charts, write_html
 
 config = load_config("config.yaml")
 result = run_sweep(config, no_confirm=True)
@@ -174,7 +174,7 @@ write_html(result, "results/report.html")
 Implement the `RAGSystem` protocol -- a single `query` method:
 
 ```python
-from ragbench import RAGSystem, RAGResult
+from rag_eval_kit import RAGSystem, RAGResult
 
 class MyRAGSystem:
     def query(self, question: str) -> RAGResult:
@@ -264,11 +264,11 @@ Retrieval metrics (`precision_at_k`, `recall_at_k`, `hit_rate_at_k`, `mrr`, `ndc
 
 | Adapter | Status | Install |
 |---|---|---|
-| `raw` | Implemented | `pip install ragbench[anthropic]` or `[openai]` |
-| `langchain` | Implemented | `pip install ragbench[langchain]` |
-| `llamaindex` | Implemented | `pip install ragbench[llamaindex]` |
-| `r2r` | Implemented | `pip install ragbench[r2r]` |
-| `haystack` | Implemented | `pip install ragbench[haystack]` |
+| `raw` | Implemented | `pip install rag-eval-kit[anthropic]` or `[openai]` |
+| `langchain` | Implemented | `pip install rag-eval-kit[langchain]` |
+| `llamaindex` | Implemented | `pip install rag-eval-kit[llamaindex]` |
+| `r2r` | Implemented | `pip install rag-eval-kit[r2r]` |
+| `haystack` | Implemented | `pip install rag-eval-kit[haystack]` |
 
 ## Development
 
@@ -276,7 +276,7 @@ Retrieval metrics (`precision_at_k`, `recall_at_k`, `hit_rate_at_k`, `mrr`, `ndc
 uv venv && uv pip install -e ".[dev]"
 pytest                    # Run tests
 ruff check .              # Lint
-mypy ragbench/          # Type check
+mypy rag_eval_kit/          # Type check
 ```
 
 ## License

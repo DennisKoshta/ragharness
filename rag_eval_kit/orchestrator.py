@@ -11,29 +11,29 @@ from typing import Any
 import click
 from tqdm import tqdm
 
-from ragbench.adapters import create_adapter
-from ragbench.auth import check_api_key
-from ragbench.checkpoint import (
+from rag_eval_kit.adapters import create_adapter
+from rag_eval_kit.auth import check_api_key
+from rag_eval_kit.checkpoint import (
     CheckpointMap,
     CheckpointWriter,
     load_checkpoint,
     row_to_result,
 )
-from ragbench.config import DatasetConfig, RagBenchConfig, SystemConfig
-from ragbench.cost_utils import (
+from rag_eval_kit.config import DatasetConfig, RagEvalKitConfig, SystemConfig
+from rag_eval_kit.cost_utils import (
     estimate_sweep_cost,
     resolve_model_from_config,
     resolve_pricing_from_metrics,
 )
-from ragbench.dataset import EvalDataset, EvalItem
-from ragbench.metrics import (
+from rag_eval_kit.dataset import EvalDataset, EvalItem
+from rag_eval_kit.metrics import (
     AGGREGATE_REGISTRY,
     PER_QUESTION_REGISTRY,
     PerQuestionMetric,
     get_aggregate_metric,
     get_per_question_metric,
 )
-from ragbench.protocol import RAGResult, RAGSystem
+from rag_eval_kit.protocol import RAGResult, RAGSystem
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +84,7 @@ def estimate_cost(
     """Rough cost estimate for the sweep in USD.
 
     Retained for backwards compatibility. :func:`run_sweep` itself uses
-    :func:`ragbench.cost_utils.estimate_sweep_cost`, which derives
+    :func:`rag_eval_kit.cost_utils.estimate_sweep_cost`, which derives
     prompt-token counts from the real dataset.
     """
     total_queries = n_questions * n_configs
@@ -332,7 +332,7 @@ def _run_single_config(
 
     tag_scores: dict[str, dict[str, dict[str, float]]] = {}
     if any(item.tags for item in items):
-        from ragbench.tag_grouping import compute_tag_scores
+        from rag_eval_kit.tag_grouping import compute_tag_scores
 
         tag_scores = compute_tag_scores(items, per_q_scores)
 
@@ -352,7 +352,7 @@ def _run_single_config(
 
 
 def run_sweep(
-    config: RagBenchConfig,
+    config: RagEvalKitConfig,
     *,
     dry_run: bool = False,
     no_confirm: bool = False,

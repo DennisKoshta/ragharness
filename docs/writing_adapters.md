@@ -1,19 +1,19 @@
 # Writing a custom adapter
 
-An adapter is the bridge between a RAG framework (LangChain, LlamaIndex, R2R, …) or a bespoke stack and ragbench's evaluation loop. The contract is deliberately tiny: anything with a `query(self, question: str) -> RAGResult` method satisfies the [`RAGSystem`](../ragbench/protocol.py) protocol. There is no base class, no registration step at import time, and no required `__init__` signature.
+An adapter is the bridge between a RAG framework (LangChain, LlamaIndex, R2R, …) or a bespoke stack and rag_eval_kit's evaluation loop. The contract is deliberately tiny: anything with a `query(self, question: str) -> RAGResult` method satisfies the [`RAGSystem`](../rag_eval_kit/protocol.py) protocol. There is no base class, no registration step at import time, and no required `__init__` signature.
 
 This guide walks through adding a first-class adapter (shipped with the package and selectable via `system.adapter: <name>` in YAML). If you only need a one-off for your own codebase, skip ahead to [Ad-hoc custom systems](#ad-hoc-custom-systems).
 
 ## 1. Write the adapter class
 
-Create `ragbench/adapters/<name>.py`. The class takes everything it needs as keyword arguments — the orchestrator merges sweep parameters on top of `adapter_config` before instantiation, so any keyword that appears in the YAML `sweep:` block is available here.
+Create `rag_eval_kit/adapters/<name>.py`. The class takes everything it needs as keyword arguments — the orchestrator merges sweep parameters on top of `adapter_config` before instantiation, so any keyword that appears in the YAML `sweep:` block is available here.
 
 ```python
-# ragbench/adapters/myvendor.py
+# rag_eval_kit/adapters/myvendor.py
 from __future__ import annotations
 import time
 from typing import Any
-from ragbench.protocol import RAGResult
+from rag_eval_kit.protocol import RAGResult
 
 
 class MyVendorRAGSystem:
@@ -28,7 +28,7 @@ class MyVendorRAGSystem:
             import myvendor_sdk
         except ImportError:
             raise ImportError(
-                "myvendor-sdk required. Install with: pip install ragbench[myvendor]"
+                "myvendor-sdk required. Install with: pip install rag-eval-kit[myvendor]"
             ) from None
 
         self.client = myvendor_sdk.Client(api_url)
@@ -69,19 +69,19 @@ Anything extra you drop here is passed through to the CSV writer untouched, so i
 
 ## 2. Register it in the factory
 
-Edit [ragbench/adapters/__init__.py](../ragbench/adapters/__init__.py) and add a branch:
+Edit [rag_eval_kit/adapters/__init__.py](../rag_eval_kit/adapters/__init__.py) and add a branch:
 
 ```python
 elif adapter_type == "myvendor":
-    from ragbench.adapters.myvendor import MyVendorRAGSystem
+    from rag_eval_kit.adapters.myvendor import MyVendorRAGSystem
     return MyVendorRAGSystem(**merged)
 ```
 
-Keep the import inside the branch — this keeps `ragbench` importable when the optional dep is missing.
+Keep the import inside the branch — this keeps `rag-eval-kit` importable when the optional dep is missing.
 
 ## 3. Whitelist the name in the config validator
 
-Open [ragbench/config.py](../ragbench/config.py) and add `"myvendor"` to the adapter allowlist in `SystemConfig`. Configs with unknown adapter names fail `ragbench validate` with a clear error.
+Open [rag_eval_kit/config.py](../rag_eval_kit/config.py) and add `"myvendor"` to the adapter allowlist in `SystemConfig`. Configs with unknown adapter names fail `rag-eval-kit validate` with a clear error.
 
 ## 4. Declare the optional dependency
 
@@ -92,7 +92,7 @@ In [pyproject.toml](../pyproject.toml):
 myvendor = ["myvendor-sdk>=1.2"]
 ```
 
-And add `myvendor` to the `all` extra so `pip install ragbench[all]` pulls it in.
+And add `myvendor` to the `all` extra so `pip install rag-eval-kit[all]` pulls it in.
 
 ## 5. Add tests
 
@@ -100,8 +100,8 @@ And add `myvendor` to the `all` extra so `pip install ragbench[all]` pulls it in
 
 ```python
 from unittest.mock import MagicMock
-from ragbench.adapters.myvendor import MyVendorRAGSystem
-from ragbench.protocol import RAGSystem
+from rag_eval_kit.adapters.myvendor import MyVendorRAGSystem
+from rag_eval_kit.protocol import RAGSystem
 
 
 def test_protocol_conformance():
@@ -164,16 +164,16 @@ Adapters used only at `concurrency == 1` (the default) need no special handling.
 If you don't need a PR to this repo, skip steps 2–6. Any class with a `query` method works with the orchestrator's Python API:
 
 ```python
-from ragbench import RAGResult
-from ragbench.config import load_config
-from ragbench.orchestrator import run_sweep
+from rag_eval_kit import RAGResult
+from rag_eval_kit.config import load_config
+from rag_eval_kit.orchestrator import run_sweep
 
 class MySystem:
     def query(self, question):
         ...
         return RAGResult(answer="...", retrieved_docs=[...], metadata={...})
 
-# Instead of loading a YAML, build the RagBenchConfig in Python and
+# Instead of loading a YAML, build the RagEvalKitConfig in Python and
 # supply an adapter factory via the 'raw' adapter's retriever argument,
 # or call the metric functions directly on your own loop. See
 # examples/programmatic_sweep.py and examples/custom_rag_system.py.

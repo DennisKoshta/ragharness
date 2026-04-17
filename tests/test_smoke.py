@@ -1,4 +1,4 @@
 def test_import():
-    import ragbench
+    import rag_eval_kit
 
-    assert ragbench.__version__ == "0.4.0"
+    assert rag_eval_kit.__version__ == "0.4.0"

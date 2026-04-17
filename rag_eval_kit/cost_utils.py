@@ -1,6 +1,6 @@
 """Token counting and pre-run cost estimation.
 
-When ``tiktoken`` is installed (``pip install ragbench[cost]``) the
+When ``tiktoken`` is installed (``pip install rag_eval_kit[cost]``) the
 prompt-token count is derived from the actual dataset text; otherwise
 we fall back to ``len(text) // 4``. Completion tokens stay heuristic —
 the true completion length is unknown before the run.
@@ -12,7 +12,7 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from ragbench.dataset import EvalDataset
+    from rag_eval_kit.dataset import EvalDataset
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ def _get_encoding(model: str) -> Any | None:
         if not _tiktoken_warned:
             logger.debug(
                 "tiktoken not installed; using char/4 fallback. "
-                "Install with: pip install ragbench[cost]"
+                "Install with: pip install rag_eval_kit[cost]"
             )
             _tiktoken_warned = True
         return None

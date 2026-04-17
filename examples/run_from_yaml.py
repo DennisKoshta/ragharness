@@ -1,7 +1,7 @@
 """Run a sweep from a YAML config — the README quickstart as a runnable script.
 
 Equivalent to:
-    ragbench run examples/basic_config.yaml --no-confirm
+    rag_eval_kit run examples/basic_config.yaml --no-confirm
 
 Usage:
     python examples/run_from_yaml.py
@@ -11,9 +11,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ragbench.config import load_config
-from ragbench.orchestrator import run_sweep
-from ragbench.reporters import write_charts, write_csv
+from rag_eval_kit.config import load_config
+from rag_eval_kit.orchestrator import run_sweep
+from rag_eval_kit.reporters import write_charts, write_csv
 
 
 def main() -> None:

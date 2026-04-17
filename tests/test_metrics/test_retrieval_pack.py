@@ -6,14 +6,14 @@ import math
 
 import pytest
 
-from ragbench.dataset import EvalItem
-from ragbench.metrics.retrieval import (
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.metrics.retrieval import (
     hit_rate_at_k,
     mrr,
     ndcg_at_k,
     recall_at_k,
 )
-from ragbench.protocol import RAGResult
+from rag_eval_kit.protocol import RAGResult
 
 
 def _item(expected: list[str] | None) -> EvalItem:

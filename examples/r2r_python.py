@@ -15,9 +15,9 @@ from pathlib import Path
 
 from r2r import R2RClient
 
-from ragbench import EvalDataset
-from ragbench.adapters.r2r import R2RRAGSystem
-from ragbench.metrics import get_per_question_metric
+from rag_eval_kit import EvalDataset
+from rag_eval_kit.adapters.r2r import R2RRAGSystem
+from rag_eval_kit.metrics import get_per_question_metric
 
 
 def default_path() -> None:

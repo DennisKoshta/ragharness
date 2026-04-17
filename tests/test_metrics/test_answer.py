@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from ragbench.dataset import EvalItem
-from ragbench.metrics.answer import contains, f1_token, rouge_l
-from ragbench.protocol import RAGResult
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.metrics.answer import contains, f1_token, rouge_l
+from rag_eval_kit.protocol import RAGResult
 
 
 def _pair(expected: str, answer: str) -> tuple[EvalItem, RAGResult]:

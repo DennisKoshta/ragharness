@@ -6,9 +6,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from ragbench.adapters import create_adapter
-from ragbench.adapters.haystack import HaystackRAGSystem
-from ragbench.protocol import RAGSystem
+from rag_eval_kit.adapters import create_adapter
+from rag_eval_kit.adapters.haystack import HaystackRAGSystem
+from rag_eval_kit.protocol import RAGSystem
 
 # ── Helpers ──────────────────────────────────────────────
 
@@ -270,7 +270,7 @@ def test_import_error_hint(monkeypatch):
     adapter = HaystackRAGSystem(documents_path="./docs")
     monkeypatch.setitem(sys.modules, "haystack", None)
 
-    with pytest.raises(ImportError, match=r"ragbench\[haystack\]"):
+    with pytest.raises(ImportError, match=r"rag_eval_kit\[haystack\]"):
         adapter._build_pipeline_from_documents()
 
 

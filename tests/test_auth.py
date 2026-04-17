@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from ragbench.auth import (
+from rag_eval_kit.auth import (
     MissingAPIKeyError,
     check_api_key,
     infer_provider,
@@ -31,9 +31,9 @@ class TestInferProvider:
 
 class TestLoadDotenv:
     def test_missing_file_no_op(self, tmp_path, monkeypatch):
-        monkeypatch.delenv("RAGBENCH_TEST_KEY", raising=False)
+        monkeypatch.delenv("RAG_EVAL_KIT_TEST_KEY", raising=False)
         assert load_dotenv(tmp_path / "nope.env") is False
-        assert "RAGBENCH_TEST_KEY" not in __import__("os").environ
+        assert "RAG_EVAL_KIT_TEST_KEY" not in __import__("os").environ
 
     def test_parses_basic_pairs(self, tmp_path, monkeypatch):
         import os
@@ -41,29 +41,29 @@ class TestLoadDotenv:
         env_file = tmp_path / ".env"
         env_file.write_text(
             "# a comment\n"
-            "RAGBENCH_TEST_A=foo\n"
-            '\nRAGBENCH_TEST_B="bar baz"\n'
-            "export RAGBENCH_TEST_C='quoted'\n"
+            "RAG_EVAL_KIT_TEST_A=foo\n"
+            '\nRAG_EVAL_KIT_TEST_B="bar baz"\n'
+            "export RAG_EVAL_KIT_TEST_C='quoted'\n"
             "no_equals_line\n"
         )
-        monkeypatch.delenv("RAGBENCH_TEST_A", raising=False)
-        monkeypatch.delenv("RAGBENCH_TEST_B", raising=False)
-        monkeypatch.delenv("RAGBENCH_TEST_C", raising=False)
+        monkeypatch.delenv("RAG_EVAL_KIT_TEST_A", raising=False)
+        monkeypatch.delenv("RAG_EVAL_KIT_TEST_B", raising=False)
+        monkeypatch.delenv("RAG_EVAL_KIT_TEST_C", raising=False)
 
         assert load_dotenv(env_file) is True
-        assert os.environ["RAGBENCH_TEST_A"] == "foo"
-        assert os.environ["RAGBENCH_TEST_B"] == "bar baz"
-        assert os.environ["RAGBENCH_TEST_C"] == "quoted"
+        assert os.environ["RAG_EVAL_KIT_TEST_A"] == "foo"
+        assert os.environ["RAG_EVAL_KIT_TEST_B"] == "bar baz"
+        assert os.environ["RAG_EVAL_KIT_TEST_C"] == "quoted"
 
     def test_existing_env_wins(self, tmp_path, monkeypatch):
         import os
 
         env_file = tmp_path / ".env"
-        env_file.write_text("RAGBENCH_TEST_X=from_file\n")
-        monkeypatch.setenv("RAGBENCH_TEST_X", "from_shell")
+        env_file.write_text("RAG_EVAL_KIT_TEST_X=from_file\n")
+        monkeypatch.setenv("RAG_EVAL_KIT_TEST_X", "from_shell")
 
         load_dotenv(env_file)
-        assert os.environ["RAGBENCH_TEST_X"] == "from_shell"
+        assert os.environ["RAG_EVAL_KIT_TEST_X"] == "from_shell"
 
 
 class TestCheckApiKey:

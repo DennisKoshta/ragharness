@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from ragbench.config import RagBenchConfig, load_config
+from rag_eval_kit.config import RagEvalKitConfig, load_config
 
 VALID_YAML = """\
 dataset:
@@ -89,7 +89,7 @@ def test_parameterised_metrics(tmp_path):
 
 
 def test_defaults():
-    cfg = RagBenchConfig(
+    cfg = RagEvalKitConfig(
         dataset={"path": "data.jsonl"},
         system={"adapter": "raw"},
     )
@@ -105,17 +105,17 @@ def test_defaults():
 
 def test_missing_dataset_raises():
     with pytest.raises(ValidationError):
-        RagBenchConfig(system={"adapter": "raw"})
+        RagEvalKitConfig(system={"adapter": "raw"})
 
 
 def test_missing_system_raises():
     with pytest.raises(ValidationError):
-        RagBenchConfig(dataset={"path": "data.jsonl"})
+        RagEvalKitConfig(dataset={"path": "data.jsonl"})
 
 
 def test_unknown_adapter_raises():
     with pytest.raises(ValidationError, match="Unknown adapter"):
-        RagBenchConfig(
+        RagEvalKitConfig(
             dataset={"path": "data.jsonl"},
             system={"adapter": "nonexistent"},
         )
@@ -123,7 +123,7 @@ def test_unknown_adapter_raises():
 
 def test_unknown_metric_raises():
     with pytest.raises(ValidationError, match="Unknown metric"):
-        RagBenchConfig(
+        RagEvalKitConfig(
             dataset={"path": "data.jsonl"},
             system={"adapter": "raw"},
             metrics=["exact_match", "bogus_metric"],
@@ -132,7 +132,7 @@ def test_unknown_metric_raises():
 
 def test_jsonl_source_without_path_raises():
     with pytest.raises(ValidationError, match="requires 'path'"):
-        RagBenchConfig(
+        RagEvalKitConfig(
             dataset={"source": "jsonl"},
             system={"adapter": "raw"},
         )
@@ -140,7 +140,7 @@ def test_jsonl_source_without_path_raises():
 
 def test_huggingface_source_without_name_raises():
     with pytest.raises(ValidationError, match="requires 'name'"):
-        RagBenchConfig(
+        RagEvalKitConfig(
             dataset={"source": "huggingface"},
             system={"adapter": "raw"},
         )

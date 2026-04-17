@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from ragbench.dataset import EvalItem
-from ragbench.tag_grouping import compute_tag_scores
+from rag_eval_kit.dataset import EvalItem
+from rag_eval_kit.tag_grouping import compute_tag_scores
 
 
 def _item(tags: dict | None = None) -> EvalItem:

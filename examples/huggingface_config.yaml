@@ -1,14 +1,14 @@
-# ragbench example: SQuAD via HuggingFace datasets
+# rag-eval-kit example: SQuAD via HuggingFace datasets
 #
 # Demonstrates the dotted-path field mapping for nested HF schemas.
 # SQuAD's answer is at `answers.text[0]` — a list under a dict.
 #
-# Requires: pip install ragbench[huggingface,anthropic]
+# Requires: pip install rag-eval-kit[huggingface,anthropic]
 #
 # Usage:
-#   ragbench validate examples/squad_config.yaml
-#   ragbench run examples/squad_config.yaml --dry-run
-#   ragbench run examples/squad_config.yaml --no-confirm
+# rag-eval-kit validate examples/squad_config.yaml
+# rag-eval-kit run examples/squad_config.yaml --dry-run
+# rag-eval-kit run examples/squad_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:
