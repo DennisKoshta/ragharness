@@ -45,6 +45,8 @@ uv venv && uv pip install -e ".[dev,anthropic]"
 {"question": "Who wrote Romeo and Juliet?", "expected_answer": "William Shakespeare"}
 ```
 
+JSONL and CSV files use fixed field names: `question`, `expected_answer`, and optionally `expected_docs` (list of strings) and `tags` (dict). For HuggingFace datasets, field names are configurable via `question_field` / `answer_field` / `docs_field`.
+
 ### 2. Write a config
 
 ```yaml
@@ -78,7 +80,18 @@ output:
   html: ./results/report.html
 ```
 
-### 3. Run
+### 3. Set API keys
+
+ragharness reads API keys from environment variables or a `.env` file in the working directory:
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...   # for Claude models
+export OPENAI_API_KEY=sk-...          # for GPT / o-series models
+```
+
+Or copy `.env.example` to `.env` and fill in your keys. Shell-exported values take precedence over `.env`.
+
+### 4. Run
 
 ```bash
 ragharness run config.yaml
@@ -204,20 +217,48 @@ No inheritance required. Any object with a conforming `query` method works.
 
 ## Configuration Reference
 
-| Section | Key | Description |
-|---|---|---|
-| `dataset` | `source` | `jsonl`, `csv`, or `huggingface` |
-| `dataset` | `path` | Path to dataset file |
-| `dataset` | `limit` | Max questions to evaluate |
-| `system` | `adapter` | `raw`, `langchain`, `llamaindex`, `r2r`, or `haystack` |
-| `system` | `adapter_config` | Adapter-specific parameters |
-| `sweep` | *(any key)* | Lists of values to sweep (Cartesian product) |
-| `metrics` | | List of metric names (strings or dicts with params) |
-| `output` | `csv` | CSV output path |
-| `output` | `charts` | Charts output directory |
-| `output` | `html` | Self-contained HTML report path |
-| `output` | `checkpoint` | JSONL checkpoint path for resumable runs |
-| `concurrency` | | Parallel queries per config (default `1`) |
+| Section | Key | Default | Description |
+|---|---|---|---|
+| `dataset` | `source` | `jsonl` | `jsonl`, `csv`, or `huggingface` |
+| `dataset` | `path` | | Path to dataset file (required for jsonl/csv) |
+| `dataset` | `name` | | HuggingFace dataset name (required for huggingface) |
+| `dataset` | `split` | `validation` | HuggingFace split to load |
+| `dataset` | `config_name` | | HuggingFace dataset config/subset name |
+| `dataset` | `limit` | | Max questions to evaluate |
+| `dataset` | `question_field` | `question` | HuggingFace only — field name for the question text |
+| `dataset` | `answer_field` | `answer` | HuggingFace only — field name for the expected answer |
+| `dataset` | `docs_field` | | HuggingFace only — field name for ground-truth docs (retrieval metrics) |
+| `dataset` | `trust_remote_code` | `false` | HuggingFace only — allow datasets to run arbitrary code |
+| `system` | `adapter` | | `raw`, `langchain`, `llamaindex`, `r2r`, or `haystack` |
+| `system` | `adapter_config` | | Adapter-specific parameters (e.g. `llm_provider`, `llm_model`) |
+| `sweep` | *(any key)* | | Lists of values to sweep (Cartesian product) |
+| `metrics` | | `[exact_match, latency_p50, latency_p95]` | List of metric names (see below) |
+| `output` | `csv` | `./results/run_{timestamp}.csv` | CSV output path |
+| `output` | `charts` | `./results/charts/` | Charts output directory |
+| `output` | `html` | | Self-contained HTML report path |
+| `output` | `checkpoint` | | JSONL checkpoint path for resumable runs |
+| `concurrency` | | `1` | Parallel queries per config |
+
+### Parametrized metrics
+
+Most metrics are plain strings. Metrics that accept parameters use a single-key dict:
+
+```yaml
+metrics:
+  - exact_match                        # simple
+  - precision_at_k:                    # with parameter
+      k: 10
+  - llm_judge:                         # LLM-based scorer
+      provider: anthropic
+      model: claude-sonnet-4-20250514
+  - token_cost:
+      pricing:
+        claude-sonnet-4-20250514:
+          input_per_1k: 0.003
+          output_per_1k: 0.015
+```
+
+Retrieval metrics (`precision_at_k`, `recall_at_k`, `hit_rate_at_k`, `mrr`, `ndcg_at_k`) require `dataset.docs_field` to be set so ground-truth documents are available for comparison.
 
 ## Adapters
 
