@@ -20,8 +20,8 @@ from matplotlib.figure import Figure
 matplotlib.use("Agg")
 
 if TYPE_CHECKING:
-    from ragharness.orchestrator import SweepResult
-    from ragharness.reporters.compare_reporter import CompareResult
+    from ragbench.orchestrator import SweepResult
+    from ragbench.reporters.compare_reporter import CompareResult
 
 
 # ── Inline assets ───────────────────────────────────────
@@ -196,7 +196,7 @@ def _render_tag_tables(
 
 def _generate_charts_base64(sweep_result: SweepResult) -> list[tuple[str, str]]:
     """Generate charts as (title, base64_data_uri) pairs."""
-    from ragharness.reporters.chart_reporter import (
+    from ragbench.reporters.chart_reporter import (
         _config_labels,
         _make_accuracy_fig,
         _make_cost_vs_accuracy_fig,
@@ -237,7 +237,7 @@ def write_html(
 
     timestamp = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     parts: list[str] = [
-        "<h1>ragharness Evaluation Report</h1>",
+        "<h1>ragbench Evaluation Report</h1>",
         f"<p class='meta'>Generated: {timestamp}</p>",
         "<h2>Summary</h2>",
         _render_summary_table(sweep_result),
@@ -260,7 +260,7 @@ def write_html(
     parts.append("<input type='text' id='filter' placeholder='Filter questions...'>")
     parts.append(_render_detail_table(sweep_result))
 
-    content = _html_page(title="ragharness Report", body="\n".join(parts))
+    content = _html_page(title="ragbench Report", body="\n".join(parts))
     path.write_text(content, encoding="utf-8")
     return path
 
@@ -278,7 +278,7 @@ def write_comparison_html(
 
     timestamp = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     parts: list[str] = [
-        "<h1>ragharness Comparison Report</h1>",
+        "<h1>ragbench Comparison Report</h1>",
         f"<p class='meta'>Generated: {timestamp}</p>",
         f"<p><strong>A:</strong> {_esc(compare_result.path_a)}<br>"
         f"<strong>B:</strong> {_esc(compare_result.path_b)}</p>",
@@ -321,6 +321,6 @@ def write_comparison_html(
             parts.append(f"<li>{_esc(label)}</li>")
         parts.append("</ul>")
 
-    content = _html_page(title="ragharness Comparison", body="\n".join(parts))
+    content = _html_page(title="ragbench Comparison", body="\n".join(parts))
     path.write_text(content, encoding="utf-8")
     return path

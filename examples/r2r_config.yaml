@@ -1,4 +1,4 @@
-# ragharness example: R2R adapter
+# ragbench example: R2R adapter
 #
 # Runs the sweep against a running R2R (SciPhi) server.  R2R performs
 # retrieval + generation server-side, so you must have already ingested
@@ -11,9 +11,9 @@
 # See https://r2r-docs.sciphi.ai for ingest and deployment instructions.
 #
 # Usage:
-#   ragharness validate examples/r2r_config.yaml
-#   ragharness run examples/r2r_config.yaml --dry-run
-#   ragharness run examples/r2r_config.yaml --no-confirm
+#   ragbench validate examples/r2r_config.yaml
+#   ragbench run examples/r2r_config.yaml --dry-run
+#   ragbench run examples/r2r_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:

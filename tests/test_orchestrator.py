@@ -4,8 +4,8 @@ import json
 
 import pytest
 
-from ragharness.config import RagHarnessConfig
-from ragharness.orchestrator import (
+from ragbench.config import RagHarnessConfig
+from ragbench.orchestrator import (
     SweepResult,
     estimate_cost,
     expand_sweep,
@@ -68,7 +68,7 @@ def _patch_adapter(monkeypatch):
     def _factory(adapter_type, adapter_config, sweep_overrides=None):
         return DummyRAGSystem(answer="42", docs=["doc_a"])
 
-    monkeypatch.setattr("ragharness.orchestrator.create_adapter", _factory)
+    monkeypatch.setattr("ragbench.orchestrator.create_adapter", _factory)
 
 
 def _make_config(dataset_path: str, sweep: dict | None = None, metrics: list | None = None):
@@ -146,7 +146,7 @@ def test_run_sweep_with_limit(tmp_path, _patch_adapter):
 
 def test_run_sweep_hf_source(monkeypatch, _patch_adapter):
     """HF source: no path required, dataset loaded via from_huggingface."""
-    from ragharness.dataset import EvalDataset, EvalItem
+    from ragbench.dataset import EvalDataset, EvalItem
 
     def _fake_hf_load(name, **kwargs):
         assert name == "fake/ds"
@@ -179,7 +179,7 @@ def test_run_sweep_parameterised_non_llm_metric_is_wrapped(tmp_path, monkeypatch
     def _factory(adapter_type, adapter_config, sweep_overrides=None):
         return DummyRAGSystem(answer="42", docs=["a", "b", "c", "d"])
 
-    monkeypatch.setattr("ragharness.orchestrator.create_adapter", _factory)
+    monkeypatch.setattr("ragbench.orchestrator.create_adapter", _factory)
 
     ds_path = tmp_path / "ds.jsonl"
     ds_path.write_text(

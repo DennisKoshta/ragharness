@@ -1,4 +1,4 @@
 def test_import():
-    import ragharness
+    import ragbench
 
-    assert ragharness.__version__ == "0.4.0"
+    assert ragbench.__version__ == "0.4.0"

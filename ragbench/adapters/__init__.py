@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from ragharness.protocol import RAGSystem
+from ragbench.protocol import RAGSystem
 
 
 def create_adapter(
@@ -18,23 +18,23 @@ def create_adapter(
     merged = {**adapter_config, **(sweep_overrides or {})}
 
     if adapter_type == "raw":
-        from ragharness.adapters.raw import RawRAGSystem
+        from ragbench.adapters.raw import RawRAGSystem
 
         return RawRAGSystem(**merged)
     elif adapter_type == "langchain":
-        from ragharness.adapters.langchain import LangChainRAGSystem
+        from ragbench.adapters.langchain import LangChainRAGSystem
 
         return LangChainRAGSystem(**merged)
     elif adapter_type == "llamaindex":
-        from ragharness.adapters.llamaindex import LlamaIndexRAGSystem
+        from ragbench.adapters.llamaindex import LlamaIndexRAGSystem
 
         return LlamaIndexRAGSystem(**merged)
     elif adapter_type == "r2r":
-        from ragharness.adapters.r2r import R2RRAGSystem
+        from ragbench.adapters.r2r import R2RRAGSystem
 
         return R2RRAGSystem(**merged)
     elif adapter_type == "haystack":
-        from ragharness.adapters.haystack import HaystackRAGSystem
+        from ragbench.adapters.haystack import HaystackRAGSystem
 
         return HaystackRAGSystem(**merged)
     else:

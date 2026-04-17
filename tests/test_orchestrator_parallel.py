@@ -8,12 +8,12 @@ import time
 
 import pytest
 
-from ragharness.checkpoint import CheckpointWriter, load_checkpoint
-from ragharness.config import RagHarnessConfig, SystemConfig
-from ragharness.dataset import EvalDataset, EvalItem
-from ragharness.metrics import get_per_question_metric
-from ragharness.orchestrator import _run_single_config, run_sweep
-from ragharness.protocol import RAGResult
+from ragbench.checkpoint import CheckpointWriter, load_checkpoint
+from ragbench.config import RagHarnessConfig, SystemConfig
+from ragbench.dataset import EvalDataset, EvalItem
+from ragbench.metrics import get_per_question_metric
+from ragbench.orchestrator import _run_single_config, run_sweep
+from ragbench.protocol import RAGResult
 
 
 class _BlockingAdapter:
@@ -80,7 +80,7 @@ def test_concurrency_actually_runs_in_parallel(monkeypatch):
     """With concurrency=4, four calls must be in-flight simultaneously."""
     adapter = _BlockingAdapter(n_concurrent=4)
     monkeypatch.setattr(
-        "ragharness.orchestrator.create_adapter",
+        "ragbench.orchestrator.create_adapter",
         lambda *a, **kw: adapter,
     )
 
@@ -105,7 +105,7 @@ def test_result_order_preserved_under_concurrency(monkeypatch):
     """Even with parallel execution, results must be in dataset order."""
     adapter = _OrderedAdapter()
     monkeypatch.setattr(
-        "ragharness.orchestrator.create_adapter",
+        "ragbench.orchestrator.create_adapter",
         lambda *a, **kw: adapter,
     )
 
@@ -133,7 +133,7 @@ def test_concurrency_one_runs_serially(monkeypatch):
 
     adapter = DummyRAGSystem(answer="x")
     monkeypatch.setattr(
-        "ragharness.orchestrator.create_adapter",
+        "ragbench.orchestrator.create_adapter",
         lambda *a, **kw: adapter,
     )
 
@@ -160,7 +160,7 @@ def test_checkpoint_written_during_run(monkeypatch, tmp_path):
 
     adapter = DummyRAGSystem(answer="42")
     monkeypatch.setattr(
-        "ragharness.orchestrator.create_adapter",
+        "ragbench.orchestrator.create_adapter",
         lambda *a, **kw: adapter,
     )
 
@@ -195,7 +195,7 @@ def test_checkpoint_resume_skips_completed_items(monkeypatch, tmp_path):
 
     adapter = DummyRAGSystem(answer="live")
     monkeypatch.setattr(
-        "ragharness.orchestrator.create_adapter",
+        "ragbench.orchestrator.create_adapter",
         lambda *a, **kw: adapter,
     )
 
@@ -247,7 +247,7 @@ def test_checkpoint_mismatched_config_params_triggers_rerun(monkeypatch, tmp_pat
 
     adapter = DummyRAGSystem(answer="fresh")
     monkeypatch.setattr(
-        "ragharness.orchestrator.create_adapter",
+        "ragbench.orchestrator.create_adapter",
         lambda *a, **kw: adapter,
     )
 
@@ -264,7 +264,7 @@ def test_checkpoint_mismatched_config_params_triggers_rerun(monkeypatch, tmp_pat
     }
     import logging
 
-    with caplog.at_level(logging.WARNING, logger="ragharness.orchestrator"):
+    with caplog.at_level(logging.WARNING, logger="ragbench.orchestrator"):
         run = _run_single_config(
             cfg_idx=0,
             n_configs=1,
@@ -290,7 +290,7 @@ def test_run_sweep_with_checkpoint(monkeypatch, tmp_path):
 
     adapter = DummyRAGSystem(answer="42")
     monkeypatch.setattr(
-        "ragharness.orchestrator.create_adapter",
+        "ragbench.orchestrator.create_adapter",
         lambda *a, **kw: adapter,
     )
 
@@ -316,7 +316,7 @@ def test_run_sweep_with_checkpoint(monkeypatch, tmp_path):
     # Second run: should skip all items
     adapter2 = DummyRAGSystem(answer="should-not-be-used")
     monkeypatch.setattr(
-        "ragharness.orchestrator.create_adapter",
+        "ragbench.orchestrator.create_adapter",
         lambda *a, **kw: adapter2,
     )
     result = run_sweep(cfg, no_confirm=True)

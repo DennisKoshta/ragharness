@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from ragharness.dataset import EvalDataset, EvalItem
+from ragbench.dataset import EvalDataset, EvalItem
 
 
 def test_eval_item_defaults():
@@ -100,14 +100,14 @@ def test_iteration(tmp_path):
 
 
 def test_dotted_get_flat():
-    from ragharness.dataset import _dotted_get
+    from ragbench.dataset import _dotted_get
 
     assert _dotted_get({"a": 1}, "a") == 1
     assert _dotted_get({"a": 1}, "b") is None
 
 
 def test_dotted_get_nested():
-    from ragharness.dataset import _dotted_get
+    from ragbench.dataset import _dotted_get
 
     obj = {"answers": {"text": ["Paris", "France"]}}
     assert _dotted_get(obj, "answers.text.0") == "Paris"
@@ -196,5 +196,5 @@ def test_from_huggingface_import_error(monkeypatch):
         return real_import(name, *args, **kwargs)
 
     monkeypatch.setattr(builtins, "__import__", fake_import)
-    with pytest.raises(ImportError, match=r"ragharness\[huggingface\]"):
+    with pytest.raises(ImportError, match=r"ragbench\[huggingface\]"):
         EvalDataset.from_huggingface("fake/ds")

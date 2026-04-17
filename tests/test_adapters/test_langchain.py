@@ -10,9 +10,9 @@ pytest.importorskip("langchain_core")
 from langchain_core.documents import Document  # noqa: E402
 from langchain_core.retrievers import BaseRetriever  # noqa: E402
 
-from ragharness.adapters import create_adapter  # noqa: E402
-from ragharness.adapters.langchain import LangChainRAGSystem  # noqa: E402
-from ragharness.protocol import RAGSystem  # noqa: E402
+from ragbench.adapters import create_adapter  # noqa: E402
+from ragbench.adapters.langchain import LangChainRAGSystem  # noqa: E402
+from ragbench.protocol import RAGSystem  # noqa: E402
 
 # ── Helpers ──────────────────────────────────────────────
 

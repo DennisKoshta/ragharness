@@ -1,7 +1,7 @@
 """Tag-based metric grouping for per-question scores.
 
 Groups already-computed per-question scores by the ``tags`` dict on each
-:class:`~ragharness.dataset.EvalItem`. Items without tags are silently
+:class:`~ragbench.dataset.EvalItem`. Items without tags are silently
 skipped. Tag keys are discovered dynamically from the data — no config
 needed.
 """
@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 
-from ragharness.dataset import EvalItem
+from ragbench.dataset import EvalItem
 
 
 def compute_tag_scores(

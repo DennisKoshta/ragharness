@@ -81,7 +81,7 @@ class OutputConfig(BaseModel):
 
 
 class RagHarnessConfig(BaseModel):
-    """Root configuration model for a ragharness evaluation run."""
+    """Root configuration model for a ragbench evaluation run."""
 
     dataset: DatasetConfig
     system: SystemConfig

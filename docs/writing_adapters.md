@@ -1,19 +1,19 @@
 # Writing a custom adapter
 
-An adapter is the bridge between a RAG framework (LangChain, LlamaIndex, R2R, …) or a bespoke stack and ragharness's evaluation loop. The contract is deliberately tiny: anything with a `query(self, question: str) -> RAGResult` method satisfies the [`RAGSystem`](../ragharness/protocol.py) protocol. There is no base class, no registration step at import time, and no required `__init__` signature.
+An adapter is the bridge between a RAG framework (LangChain, LlamaIndex, R2R, …) or a bespoke stack and ragbench's evaluation loop. The contract is deliberately tiny: anything with a `query(self, question: str) -> RAGResult` method satisfies the [`RAGSystem`](../ragbench/protocol.py) protocol. There is no base class, no registration step at import time, and no required `__init__` signature.
 
 This guide walks through adding a first-class adapter (shipped with the package and selectable via `system.adapter: <name>` in YAML). If you only need a one-off for your own codebase, skip ahead to [Ad-hoc custom systems](#ad-hoc-custom-systems).
 
 ## 1. Write the adapter class
 
-Create `ragharness/adapters/<name>.py`. The class takes everything it needs as keyword arguments — the orchestrator merges sweep parameters on top of `adapter_config` before instantiation, so any keyword that appears in the YAML `sweep:` block is available here.
+Create `ragbench/adapters/<name>.py`. The class takes everything it needs as keyword arguments — the orchestrator merges sweep parameters on top of `adapter_config` before instantiation, so any keyword that appears in the YAML `sweep:` block is available here.
 
 ```python
-# ragharness/adapters/myvendor.py
+# ragbench/adapters/myvendor.py
 from __future__ import annotations
 import time
 from typing import Any
-from ragharness.protocol import RAGResult
+from ragbench.protocol import RAGResult
 
 
 class MyVendorRAGSystem:
@@ -28,7 +28,7 @@ class MyVendorRAGSystem:
             import myvendor_sdk
         except ImportError:
             raise ImportError(
-                "myvendor-sdk required. Install with: pip install ragharness[myvendor]"
+                "myvendor-sdk required. Install with: pip install ragbench[myvendor]"
             ) from None
 
         self.client = myvendor_sdk.Client(api_url)
@@ -69,19 +69,19 @@ Anything extra you drop here is passed through to the CSV writer untouched, so i
 
 ## 2. Register it in the factory
 
-Edit [ragharness/adapters/__init__.py](../ragharness/adapters/__init__.py) and add a branch:
+Edit [ragbench/adapters/__init__.py](../ragbench/adapters/__init__.py) and add a branch:
 
 ```python
 elif adapter_type == "myvendor":
-    from ragharness.adapters.myvendor import MyVendorRAGSystem
+    from ragbench.adapters.myvendor import MyVendorRAGSystem
     return MyVendorRAGSystem(**merged)
 ```
 
-Keep the import inside the branch — this keeps `ragharness` importable when the optional dep is missing.
+Keep the import inside the branch — this keeps `ragbench` importable when the optional dep is missing.
 
 ## 3. Whitelist the name in the config validator
 
-Open [ragharness/config.py](../ragharness/config.py) and add `"myvendor"` to the adapter allowlist in `SystemConfig`. Configs with unknown adapter names fail `ragharness validate` with a clear error.
+Open [ragbench/config.py](../ragbench/config.py) and add `"myvendor"` to the adapter allowlist in `SystemConfig`. Configs with unknown adapter names fail `ragbench validate` with a clear error.
 
 ## 4. Declare the optional dependency
 
@@ -92,7 +92,7 @@ In [pyproject.toml](../pyproject.toml):
 myvendor = ["myvendor-sdk>=1.2"]
 ```
 
-And add `myvendor` to the `all` extra so `pip install ragharness[all]` pulls it in.
+And add `myvendor` to the `all` extra so `pip install ragbench[all]` pulls it in.
 
 ## 5. Add tests
 
@@ -100,8 +100,8 @@ And add `myvendor` to the `all` extra so `pip install ragharness[all]` pulls it 
 
 ```python
 from unittest.mock import MagicMock
-from ragharness.adapters.myvendor import MyVendorRAGSystem
-from ragharness.protocol import RAGSystem
+from ragbench.adapters.myvendor import MyVendorRAGSystem
+from ragbench.protocol import RAGSystem
 
 
 def test_protocol_conformance():
@@ -164,9 +164,9 @@ Adapters used only at `concurrency == 1` (the default) need no special handling.
 If you don't need a PR to this repo, skip steps 2–6. Any class with a `query` method works with the orchestrator's Python API:
 
 ```python
-from ragharness import RAGResult
-from ragharness.config import load_config
-from ragharness.orchestrator import run_sweep
+from ragbench import RAGResult
+from ragbench.config import load_config
+from ragbench.orchestrator import run_sweep
 
 class MySystem:
     def query(self, question):

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from ragharness.protocol import RAGResult
+from ragbench.protocol import RAGResult
 
 
 def latency_p50(results: list[RAGResult]) -> float:

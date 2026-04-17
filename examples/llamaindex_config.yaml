@@ -1,4 +1,4 @@
-# ragharness example: LlamaIndex adapter
+# ragbench example: LlamaIndex adapter
 #
 # Builds a VectorStoreIndex from the sample_docs/ directory on first query
 # and runs the sweep against it.  Uses LlamaIndex's default embeddings
@@ -9,9 +9,9 @@
 # ``index=`` or ``query_engine=`` to LlamaIndexRAGSystem.
 #
 # Usage:
-#   ragharness validate examples/llamaindex_config.yaml
-#   ragharness run examples/llamaindex_config.yaml --dry-run
-#   ragharness run examples/llamaindex_config.yaml --no-confirm
+#   ragbench validate examples/llamaindex_config.yaml
+#   ragbench run examples/llamaindex_config.yaml --dry-run
+#   ragbench run examples/llamaindex_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:

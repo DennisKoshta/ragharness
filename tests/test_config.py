@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from ragharness.config import RagHarnessConfig, load_config
+from ragbench.config import RagHarnessConfig, load_config
 
 VALID_YAML = """\
 dataset:

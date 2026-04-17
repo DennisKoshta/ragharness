@@ -7,14 +7,14 @@ from pathlib import Path
 
 import click
 
-from ragharness._version import __version__
+from ragbench._version import __version__
 
 
 @click.group()
 @click.version_option(version=__version__)
 @click.option("--verbose", "-v", is_flag=True, help="Enable verbose logging.")
 def main(verbose: bool) -> None:
-    """ragharness — pluggable RAG evaluation framework."""
+    """ragbench — pluggable RAG evaluation framework."""
     level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(
         level=level,
@@ -70,10 +70,10 @@ def run(
     checkpoint_path: str | None,
 ) -> None:
     """Run an evaluation sweep from a config file."""
-    from ragharness.auth import MissingAPIKeyError, load_dotenv
-    from ragharness.config import load_config
-    from ragharness.orchestrator import run_sweep
-    from ragharness.reporters import write_charts, write_csv
+    from ragbench.auth import MissingAPIKeyError, load_dotenv
+    from ragbench.config import load_config
+    from ragbench.orchestrator import run_sweep
+    from ragbench.reporters import write_charts, write_csv
 
     load_dotenv()
     cfg = load_config(config)
@@ -124,7 +124,7 @@ def run(
         click.echo(f"Charts written to {chart_dir}")
 
     if cfg.output.html:
-        from ragharness.reporters.html_reporter import write_html
+        from ragbench.reporters.html_reporter import write_html
 
         tag_scores: dict[str, dict[str, dict[str, float]]] | None = None
         if any(run_result.tag_scores for run_result in result.runs):
@@ -141,14 +141,14 @@ def run(
 
 
 def _config_label(run_result: object) -> str:
-    from ragharness.orchestrator import RunResult
+    from ragbench.orchestrator import RunResult
 
     assert isinstance(run_result, RunResult)
     return ", ".join(f"{k}={v}" for k, v in sorted(run_result.config_params.items())) or "baseline"
 
 
 def _print_summary(result: object) -> None:
-    from ragharness.orchestrator import SweepResult
+    from ragbench.orchestrator import SweepResult
 
     assert isinstance(result, SweepResult)
 
@@ -169,8 +169,8 @@ def _print_summary(result: object) -> None:
 @click.argument("config", type=click.Path(exists=True))
 def validate(config: str) -> None:
     """Validate a config file without running."""
-    from ragharness.config import load_config
-    from ragharness.orchestrator import expand_sweep
+    from ragbench.config import load_config
+    from ragbench.orchestrator import expand_sweep
 
     try:
         cfg = load_config(config)
@@ -207,8 +207,8 @@ def validate(config: str) -> None:
 )
 def report(csv_path: str, output_dir: str | None, html_path: str | None) -> None:
     """Re-generate charts from an existing results_summary.csv."""
-    from ragharness.orchestrator import RunResult, SweepResult
-    from ragharness.reporters import write_charts
+    from ragbench.orchestrator import RunResult, SweepResult
+    from ragbench.reporters import write_charts
 
     csv_file = Path(csv_path)
     out_dir = Path(output_dir) if output_dir else csv_file.parent
@@ -239,7 +239,7 @@ def report(csv_path: str, output_dir: str | None, html_path: str | None) -> None
     click.echo(f"Charts regenerated in {chart_dir}")
 
     if html_path:
-        from ragharness.reporters.html_reporter import write_html
+        from ragbench.reporters.html_reporter import write_html
 
         hp = write_html(sweep_result, html_path)
         click.echo(f"HTML report written to {hp}")
@@ -280,7 +280,7 @@ def compare(
     html_path: str | None,
 ) -> None:
     """Compare two results_summary.csv files side by side."""
-    from ragharness.reporters.compare_reporter import (
+    from ragbench.reporters.compare_reporter import (
         compare_results,
         format_comparison_table,
         write_comparison_csv,
@@ -294,7 +294,7 @@ def compare(
         click.echo(f"Comparison CSV written to {output}")
 
     if html_path:
-        from ragharness.reporters.html_reporter import write_comparison_html
+        from ragbench.reporters.html_reporter import write_comparison_html
 
         write_comparison_html(result, html_path)
         click.echo(f"Comparison HTML written to {html_path}")

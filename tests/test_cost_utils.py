@@ -6,14 +6,14 @@ import builtins
 
 import pytest
 
-from ragharness import cost_utils
-from ragharness.cost_utils import (
+from ragbench import cost_utils
+from ragbench.cost_utils import (
     count_tokens,
     estimate_sweep_cost,
     resolve_model_from_config,
     resolve_pricing_from_metrics,
 )
-from ragharness.dataset import EvalDataset, EvalItem
+from ragbench.dataset import EvalDataset, EvalItem
 
 
 def _reset_caches() -> None:

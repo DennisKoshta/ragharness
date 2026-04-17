@@ -11,7 +11,7 @@ from matplotlib.figure import Figure
 matplotlib.use("Agg")
 
 if TYPE_CHECKING:
-    from ragharness.orchestrator import SweepResult
+    from ragbench.orchestrator import SweepResult
 
 
 def write_charts(sweep_result: SweepResult, output_dir: str | Path) -> Path:

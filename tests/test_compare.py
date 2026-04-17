@@ -6,7 +6,7 @@ import csv
 
 import pytest
 
-from ragharness.reporters.compare_reporter import (
+from ragbench.reporters.compare_reporter import (
     CompareResult,
     ConfigComparison,
     MetricDelta,

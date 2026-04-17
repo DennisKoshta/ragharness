@@ -3,7 +3,7 @@ from __future__ import annotations
 import time
 from typing import Any
 
-from ragharness.protocol import RAGResult
+from ragbench.protocol import RAGResult
 
 
 class LlamaIndexRAGSystem:
@@ -75,7 +75,7 @@ class LlamaIndexRAGSystem:
             except ImportError:
                 raise ImportError(
                     "llama-index-llms-openai package required. "
-                    "Install with: pip install ragharness[llamaindex]"
+                    "Install with: pip install ragbench[llamaindex]"
                 ) from None
             return OpenAI(model=self.llm_model, temperature=self.temperature)
 
@@ -96,7 +96,7 @@ class LlamaIndexRAGSystem:
             from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
         except ImportError:
             raise ImportError(
-                "llama-index package required. Install with: pip install ragharness[llamaindex]"
+                "llama-index package required. Install with: pip install ragbench[llamaindex]"
             ) from None
 
         documents = SimpleDirectoryReader(self.documents_path).load_data()

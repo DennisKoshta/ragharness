@@ -4,7 +4,7 @@ import threading
 import time
 from typing import Any
 
-from ragharness.protocol import RAGResult
+from ragbench.protocol import RAGResult
 
 
 class R2RRAGSystem:
@@ -91,7 +91,7 @@ class R2RRAGSystem:
                 from r2r import R2RClient
             except ImportError:
                 raise ImportError(
-                    "r2r package required. Install with: pip install ragharness[r2r]"
+                    "r2r package required. Install with: pip install ragbench[r2r]"
                 ) from None
 
             self._client = R2RClient(base_url=self.base_url)

@@ -68,7 +68,7 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# ── ragharness output ───────────────────────────────
+# ── ragbench output ───────────────────────────────
 output/
 results/
 

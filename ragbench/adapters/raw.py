@@ -5,7 +5,7 @@ import time
 from collections.abc import Callable
 from typing import Any
 
-from ragharness.protocol import RAGResult
+from ragbench.protocol import RAGResult
 
 DEFAULT_RAG_PROMPT = """\
 Answer the question based on the provided context.
@@ -81,7 +81,7 @@ class RawRAGSystem:
                     import openai
                 except ImportError:
                     raise ImportError(
-                        "openai package required. Install with: pip install ragharness[openai]"
+                        "openai package required. Install with: pip install ragbench[openai]"
                     ) from None
                 self._client = openai.OpenAI()
             elif self.llm_provider == "anthropic":
@@ -90,7 +90,7 @@ class RawRAGSystem:
                 except ImportError:
                     raise ImportError(
                         "anthropic package required. "
-                        "Install with: pip install ragharness[anthropic]"
+                        "Install with: pip install ragbench[anthropic]"
                     ) from None
                 self._client = anthropic.Anthropic()
             else:

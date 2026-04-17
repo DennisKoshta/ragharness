@@ -4,8 +4,8 @@ import json
 import logging
 from typing import Any
 
-from ragharness.dataset import EvalItem
-from ragharness.protocol import RAGResult
+from ragbench.dataset import EvalItem
+from ragbench.protocol import RAGResult
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +73,7 @@ class _LLMScorer:
             except ImportError:
                 raise ImportError(
                     "openai package required for LLM judge with provider='openai'. "
-                    "Install with: pip install ragharness[openai]"
+                    "Install with: pip install ragbench[openai]"
                 ) from None
             self._client = openai.OpenAI()
         elif self.provider == "anthropic":
@@ -82,7 +82,7 @@ class _LLMScorer:
             except ImportError:
                 raise ImportError(
                     "anthropic package required for LLM judge with provider='anthropic'. "
-                    "Install with: pip install ragharness[anthropic]"
+                    "Install with: pip install ragbench[anthropic]"
                 ) from None
             self._client = anthropic.Anthropic()
         else:

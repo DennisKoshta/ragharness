@@ -19,7 +19,7 @@ Pick the metric that matches your task shape before you write a new one.
 
 ## Writing new metrics
 
-ragharness has two metric kinds, and they plug in through two different registries in [ragharness/metrics/__init__.py](../ragharness/metrics/__init__.py).
+ragbench has two metric kinds, and they plug in through two different registries in [ragbench/metrics/__init__.py](../ragbench/metrics/__init__.py).
 
 | Kind | Signature | Called | Example |
 |---|---|---|---|
@@ -33,10 +33,10 @@ Means of per-question metrics are auto-computed by the orchestrator as `mean_<na
 ### Per-question example: semantic similarity
 
 ```python
-# ragharness/metrics/similarity.py
+# ragbench/metrics/similarity.py
 from __future__ import annotations
-from ragharness.dataset import EvalItem
-from ragharness.protocol import RAGResult
+from ragbench.dataset import EvalItem
+from ragbench.protocol import RAGResult
 
 _model = None
 
@@ -59,16 +59,16 @@ def semantic_similarity(item: EvalItem, result: RAGResult) -> float:
 
 Notes:
 
-- Import heavy / optional deps **inside** the function (lazy) so importing ragharness stays fast and doesn't require the extra.
+- Import heavy / optional deps **inside** the function (lazy) so importing ragbench stays fast and doesn't require the extra.
 - Return a float in `[0, 1]` where possible — charts and summary tables assume this.
 - Use `nan` to signal "could not score this item"; the orchestrator's mean computation will need handling if you do this, so prefer a defined fallback value.
 
 ### Aggregate example: total tokens
 
 ```python
-# ragharness/metrics/tokens.py
+# ragbench/metrics/tokens.py
 from __future__ import annotations
-from ragharness.protocol import RAGResult
+from ragbench.protocol import RAGResult
 
 
 def total_tokens(results: list[RAGResult]) -> float:
@@ -91,11 +91,11 @@ metrics:
 
 ## 2. Register it
 
-Edit [ragharness/metrics/__init__.py](../ragharness/metrics/__init__.py):
+Edit [ragbench/metrics/__init__.py](../ragbench/metrics/__init__.py):
 
 ```python
-from ragharness.metrics.similarity import semantic_similarity
-from ragharness.metrics.tokens import total_tokens
+from ragbench.metrics.similarity import semantic_similarity
+from ragbench.metrics.tokens import total_tokens
 
 PER_QUESTION_REGISTRY["semantic_similarity"] = semantic_similarity
 AGGREGATE_REGISTRY["total_tokens"] = total_tokens
@@ -103,7 +103,7 @@ AGGREGATE_REGISTRY["total_tokens"] = total_tokens
 
 ## 3. Whitelist in the config validator
 
-[ragharness/config.py](../ragharness/config.py) validates metric names up-front so `ragharness validate` catches typos. Add your name to the allowlist there.
+[ragbench/config.py](../ragbench/config.py) validates metric names up-front so `ragbench validate` catches typos. Add your name to the allowlist there.
 
 ## 4. Tests
 
@@ -122,15 +122,15 @@ Add one paragraph docstring that covers:
 - what edge cases return (empty lists, missing metadata)
 - range of the return value
 
-See [ragharness/metrics/cost.py](../ragharness/metrics/cost.py) for a representative example.
+See [ragbench/metrics/cost.py](../ragbench/metrics/cost.py) for a representative example.
 
 ## Registering metrics from user code (no PR needed)
 
 The registries are plain dicts. If you don't want to upstream a metric, register it from your own script before calling `run_sweep`:
 
 ```python
-from ragharness.metrics import PER_QUESTION_REGISTRY
-from ragharness.orchestrator import run_sweep
+from ragbench.metrics import PER_QUESTION_REGISTRY
+from ragbench.orchestrator import run_sweep
 
 def my_metric(item, result):
     return 1.0 if "yes" in result.answer.lower() else 0.0

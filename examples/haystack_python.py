@@ -22,9 +22,9 @@ from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.dataclasses import Document
 from haystack.document_stores.in_memory import InMemoryDocumentStore
 
-from ragharness import EvalDataset
-from ragharness.adapters.haystack import HaystackRAGSystem
-from ragharness.metrics import get_per_question_metric
+from ragbench import EvalDataset
+from ragbench.adapters.haystack import HaystackRAGSystem
+from ragbench.metrics import get_per_question_metric
 
 SAMPLE_CORPUS = [
     "Paris is the capital of France.",

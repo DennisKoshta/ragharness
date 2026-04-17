@@ -1,7 +1,7 @@
 """Construct a RagHarnessConfig in Python — no YAML — and run a sweep.
 
 Useful when the config is computed (e.g. sweeping over N model checkpoints
-discovered at runtime, or wiring ragharness into a notebook / pipeline).
+discovered at runtime, or wiring ragbench into a notebook / pipeline).
 
 Usage:
     python examples/programmatic_sweep.py
@@ -11,9 +11,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ragharness.config import DatasetConfig, RagHarnessConfig, SystemConfig
-from ragharness.orchestrator import run_sweep
-from ragharness.reporters import write_csv
+from ragbench.config import DatasetConfig, RagHarnessConfig, SystemConfig
+from ragbench.orchestrator import run_sweep
+from ragbench.reporters import write_csv
 
 
 def main() -> None:

@@ -10,8 +10,8 @@ from __future__ import annotations
 import string
 from collections import Counter
 
-from ragharness.dataset import EvalItem
-from ragharness.protocol import RAGResult
+from ragbench.dataset import EvalItem
+from ragbench.protocol import RAGResult
 
 _PUNCT_TABLE = str.maketrans("", "", string.punctuation)
 

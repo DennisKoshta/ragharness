@@ -4,7 +4,7 @@ import time
 from collections.abc import Callable
 from typing import Any
 
-from ragharness.protocol import RAGResult
+from ragbench.protocol import RAGResult
 
 DEFAULT_PROMPT_TEMPLATE = """\
 Given the following documents, answer the question.
@@ -98,7 +98,7 @@ class HaystackRAGSystem:
             from haystack.document_stores.in_memory import InMemoryDocumentStore
         except ImportError:
             raise ImportError(
-                "haystack-ai package required. Install with: pip install ragharness[haystack]"
+                "haystack-ai package required. Install with: pip install ragbench[haystack]"
             ) from None
 
         import os

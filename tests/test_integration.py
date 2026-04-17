@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 from click.testing import CliRunner
 
-from ragharness.cli import main
+from ragbench.cli import main
 from tests.conftest import DummyRAGSystem
 
 runner = CliRunner()
@@ -49,7 +49,7 @@ def _mock_create_adapter(*args, **kwargs):
 # ── run command ──────────────────────────────────────────
 
 
-@patch("ragharness.orchestrator.create_adapter", _mock_create_adapter)
+@patch("ragbench.orchestrator.create_adapter", _mock_create_adapter)
 def test_run_end_to_end(tmp_path):
     ds = _write_dataset(tmp_path)
     cfg = _write_config(tmp_path, ds)
@@ -70,7 +70,7 @@ def test_run_end_to_end(tmp_path):
     assert len(charts) >= 1
 
 
-@patch("ragharness.orchestrator.create_adapter", _mock_create_adapter)
+@patch("ragbench.orchestrator.create_adapter", _mock_create_adapter)
 def test_run_dry_run(tmp_path):
     ds = _write_dataset(tmp_path)
     cfg = _write_config(tmp_path, ds)
@@ -83,7 +83,7 @@ def test_run_dry_run(tmp_path):
     assert not (tmp_path / "out").exists()
 
 
-@patch("ragharness.orchestrator.create_adapter", _mock_create_adapter)
+@patch("ragbench.orchestrator.create_adapter", _mock_create_adapter)
 def test_run_with_sweep(tmp_path):
     ds = _write_dataset(tmp_path, n=2)
     cfg = _write_config(tmp_path, ds, sweep={"top_k": "[3, 5]"})
@@ -98,7 +98,7 @@ def test_run_with_sweep(tmp_path):
     assert "Config 2/2" in result.output
 
 
-@patch("ragharness.orchestrator.create_adapter", _mock_create_adapter)
+@patch("ragbench.orchestrator.create_adapter", _mock_create_adapter)
 def test_run_with_filter(tmp_path):
     ds = _write_dataset(tmp_path, n=2)
     cfg = _write_config(tmp_path, ds, sweep={"top_k": "[3, 5, 10]"})
@@ -124,7 +124,7 @@ def test_run_with_filter(tmp_path):
 # ── report command ───────────────────────────────────────
 
 
-@patch("ragharness.orchestrator.create_adapter", _mock_create_adapter)
+@patch("ragbench.orchestrator.create_adapter", _mock_create_adapter)
 def test_report_regenerates_charts(tmp_path):
     # First, run to produce a summary CSV
     ds = _write_dataset(tmp_path)

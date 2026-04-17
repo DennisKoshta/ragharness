@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from ragharness.auth import (
+from ragbench.auth import (
     MissingAPIKeyError,
     check_api_key,
     infer_provider,

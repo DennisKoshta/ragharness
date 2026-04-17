@@ -1,4 +1,4 @@
-# ragharness retrieval-quality example configuration
+# ragbench retrieval-quality example configuration
 #
 # Demonstrates the retrieval metric pack — precision@k, recall@k,
 # hit_rate@k, MRR, nDCG@k — across a top_k sweep. The resulting CSV
@@ -6,9 +6,9 @@
 # metrics, so you can see which retrieval knob moves which metric.
 #
 # Usage:
-#   ragharness validate examples/retrieval_quality_config.yaml
-#   ragharness run examples/retrieval_quality_config.yaml --dry-run
-#   ragharness run examples/retrieval_quality_config.yaml --no-confirm
+#   ragbench validate examples/retrieval_quality_config.yaml
+#   ragbench run examples/retrieval_quality_config.yaml --dry-run
+#   ragbench run examples/retrieval_quality_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:

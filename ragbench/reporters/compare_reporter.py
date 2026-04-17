@@ -1,4 +1,4 @@
-"""Compare two ragharness result CSVs side by side.
+"""Compare two ragbench result CSVs side by side.
 
 Reads two ``results_summary.csv`` files, matches configs by parameter
 equality, and computes per-metric deltas with directional indicators.
@@ -60,7 +60,7 @@ def _parse_row(
     """Split a CSV row into (config_params, metric_scores).
 
     Values that parse as ``float`` go to metrics; everything else is a
-    config parameter. Mirrors the heuristic in ``ragharness.cli.report``.
+    config parameter. Mirrors the heuristic in ``ragbench.cli.report``.
     """
     config: dict[str, str] = {}
     metrics: dict[str, float] = {}

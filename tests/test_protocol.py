@@ -1,4 +1,4 @@
-from ragharness.protocol import RAGResult, RAGSystem
+from ragbench.protocol import RAGResult, RAGSystem
 
 
 class _ValidSystem:

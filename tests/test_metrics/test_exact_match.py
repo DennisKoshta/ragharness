@@ -1,6 +1,6 @@
-from ragharness.dataset import EvalItem
-from ragharness.metrics.exact_match import exact_match
-from ragharness.protocol import RAGResult
+from ragbench.dataset import EvalItem
+from ragbench.metrics.exact_match import exact_match
+from ragbench.protocol import RAGResult
 
 
 def _item(expected: str) -> EvalItem:

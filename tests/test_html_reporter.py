@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 
 matplotlib.use("Agg")
 
-from ragharness.dataset import EvalItem
-from ragharness.orchestrator import RunResult, SweepResult
-from ragharness.protocol import RAGResult
-from ragharness.reporters.compare_reporter import CompareResult, ConfigComparison, MetricDelta
-from ragharness.reporters.html_reporter import (
+from ragbench.dataset import EvalItem
+from ragbench.orchestrator import RunResult, SweepResult
+from ragbench.protocol import RAGResult
+from ragbench.reporters.compare_reporter import CompareResult, ConfigComparison, MetricDelta
+from ragbench.reporters.html_reporter import (
     _fig_to_base64,
     _render_detail_table,
     _render_summary_table,

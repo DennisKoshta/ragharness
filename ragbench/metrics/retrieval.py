@@ -10,8 +10,8 @@ from __future__ import annotations
 
 import math
 
-from ragharness.dataset import EvalItem
-from ragharness.protocol import RAGResult
+from ragbench.dataset import EvalItem
+from ragbench.protocol import RAGResult
 
 
 def _matches(expected: list[str], retrieved: list[str], k: int) -> list[bool]:

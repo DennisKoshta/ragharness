@@ -5,12 +5,12 @@ from __future__ import annotations
 import json
 import threading
 
-from ragharness.checkpoint import (
+from ragbench.checkpoint import (
     CheckpointWriter,
     load_checkpoint,
     row_to_result,
 )
-from ragharness.protocol import RAGResult
+from ragbench.protocol import RAGResult
 
 
 def _make_result(answer: str = "42", model: str = "gpt-4o") -> RAGResult:

@@ -5,9 +5,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from ragharness.adapters import create_adapter
-from ragharness.adapters.raw import RawRAGSystem
-from ragharness.protocol import RAGSystem
+from ragbench.adapters import create_adapter
+from ragbench.adapters.raw import RawRAGSystem
+from ragbench.protocol import RAGSystem
 
 # ── Helpers ──────────────────────────────────────────────
 

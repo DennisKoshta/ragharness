@@ -1,12 +1,12 @@
-# ragharness basic example configuration
+# ragbench basic example configuration
 #
 # The smallest end-to-end config: local JSONL dataset + raw adapter +
 # a 3x2 sweep over top_k and temperature. Good starting point to copy.
 #
 # Usage:
-#   ragharness validate examples/basic_config.yaml
-#   ragharness run examples/basic_config.yaml --dry-run
-#   ragharness run examples/basic_config.yaml --no-confirm
+#   ragbench validate examples/basic_config.yaml
+#   ragbench run examples/basic_config.yaml --dry-run
+#   ragbench run examples/basic_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:

@@ -6,9 +6,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from ragharness.adapters import create_adapter
-from ragharness.adapters.haystack import HaystackRAGSystem
-from ragharness.protocol import RAGSystem
+from ragbench.adapters import create_adapter
+from ragbench.adapters.haystack import HaystackRAGSystem
+from ragbench.protocol import RAGSystem
 
 # ── Helpers ──────────────────────────────────────────────
 
@@ -270,7 +270,7 @@ def test_import_error_hint(monkeypatch):
     adapter = HaystackRAGSystem(documents_path="./docs")
     monkeypatch.setitem(sys.modules, "haystack", None)
 
-    with pytest.raises(ImportError, match=r"ragharness\[haystack\]"):
+    with pytest.raises(ImportError, match=r"ragbench\[haystack\]"):
         adapter._build_pipeline_from_documents()
 
 

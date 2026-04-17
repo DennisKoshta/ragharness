@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/ragharness
+      url: https://pypi.org/p/ragbench
     permissions:
       id-token: write
     steps:

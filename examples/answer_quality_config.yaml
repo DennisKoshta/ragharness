@@ -1,4 +1,4 @@
-# ragharness answer-quality example configuration
+# ragbench answer-quality example configuration
 #
 # Walks through the full spectrum of answer-quality metrics, from the
 # strictest (exact_match) to the most expensive (llm_judge /
@@ -6,9 +6,9 @@
 # actually needs — see docs/writing_metrics.md for the decision tree.
 #
 # Usage:
-#   ragharness validate examples/answer_quality_config.yaml
-#   ragharness run examples/answer_quality_config.yaml --dry-run
-#   ragharness run examples/answer_quality_config.yaml --no-confirm
+#   ragbench validate examples/answer_quality_config.yaml
+#   ragbench run examples/answer_quality_config.yaml --dry-run
+#   ragbench run examples/answer_quality_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:

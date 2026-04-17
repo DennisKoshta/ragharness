@@ -6,9 +6,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from ragharness.adapters import create_adapter
-from ragharness.adapters.llamaindex import LlamaIndexRAGSystem
-from ragharness.protocol import RAGSystem
+from ragbench.adapters import create_adapter
+from ragbench.adapters.llamaindex import LlamaIndexRAGSystem
+from ragbench.protocol import RAGSystem
 
 # ── Helpers ──────────────────────────────────────────────
 
@@ -223,7 +223,7 @@ def test_import_error_hint(monkeypatch):
     adapter = LlamaIndexRAGSystem(documents_path="./docs")
     monkeypatch.setitem(sys.modules, "llama_index.core", None)
 
-    with pytest.raises(ImportError, match=r"ragharness\[llamaindex\]"):
+    with pytest.raises(ImportError, match=r"ragbench\[llamaindex\]"):
         adapter._load_index_from_documents()
 
 

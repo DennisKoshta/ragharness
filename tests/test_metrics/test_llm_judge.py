@@ -2,9 +2,9 @@ import math
 
 import pytest
 
-from ragharness.dataset import EvalItem
-from ragharness.metrics.llm_judge import LLMJudge
-from ragharness.protocol import RAGResult
+from ragbench.dataset import EvalItem
+from ragbench.metrics.llm_judge import LLMJudge
+from ragbench.protocol import RAGResult
 
 
 def _item() -> EvalItem:

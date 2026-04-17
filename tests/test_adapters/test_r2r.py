@@ -6,9 +6,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from ragharness.adapters import create_adapter
-from ragharness.adapters.r2r import R2RRAGSystem
-from ragharness.protocol import RAGSystem
+from ragbench.adapters import create_adapter
+from ragbench.adapters.r2r import R2RRAGSystem
+from ragbench.protocol import RAGSystem
 
 # ── Helpers ──────────────────────────────────────────────
 
@@ -187,7 +187,7 @@ def test_import_error_hint(monkeypatch):
     # Force the `from r2r import R2RClient` to fail.
     monkeypatch.setitem(sys.modules, "r2r", None)
 
-    with pytest.raises(ImportError, match=r"ragharness\[r2r\]"):
+    with pytest.raises(ImportError, match=r"ragbench\[r2r\]"):
         adapter._get_client()
 
 

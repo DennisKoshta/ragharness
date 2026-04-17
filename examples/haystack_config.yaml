@@ -1,4 +1,4 @@
-# ragharness example: Haystack 2.x adapter
+# ragbench example: Haystack 2.x adapter
 #
 # Builds a simple BM25 + OpenAIGenerator pipeline from the sample_docs/
 # directory on first query, caches it, then runs the sweep.  Requires
@@ -9,9 +9,9 @@
 # and pass it via ``pipeline=...``.  See examples/haystack_python.py.
 #
 # Usage:
-#   ragharness validate examples/haystack_config.yaml
-#   ragharness run examples/haystack_config.yaml --dry-run
-#   ragharness run examples/haystack_config.yaml --no-confirm
+#   ragbench validate examples/haystack_config.yaml
+#   ragbench run examples/haystack_config.yaml --dry-run
+#   ragbench run examples/haystack_config.yaml --no-confirm
 
 # ── Dataset ──────────────────────────────────────────────
 dataset:
